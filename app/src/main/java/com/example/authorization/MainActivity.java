@@ -18,16 +18,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void check(View view) {
-        EditText editText1 = findViewById(R.id.login);
-        EditText editText2 = findViewById(R.id.password);
-        TextView textView = findViewById(R.id.em);
-        String prov = editText1.getText().toString().trim();
-        String prov2 = editText2.getText().toString().trim();
-        String logCheck = "login";
-        String pasCheck = "1q";
-        if(prov.equals(logCheck) && prov2.equals(pasCheck))
+        EditText receivingLogin = findViewById(R.id.login);
+        EditText receivingPassword = findViewById(R.id.password);
+        String login = receivingLogin.getText().toString().trim();
+        String password = receivingPassword.getText().toString().trim();
+        // Сюда вводим логин
+        String checkLogin = "login";
+        // Сюда вводим пароль
+        String checkPassword = "password";
+        if(login.equals(checkLogin) && password.equals(checkPassword))
         {
-            textView.setText("Вход");
+           textOutput();
         }
         else
         {
@@ -42,9 +43,14 @@ public class MainActivity extends AppCompatActivity {
                     });
             AlertDialog alert = y_builder.create();
             alert.show();
-            textView.setText(prov);
         }
+    }
 
+    // Отедльный метод для вывода текста в TextView, который называется output.
+    public void textOutput ()
+    {
+        TextView output = findViewById(R.id.output);
+        output.setText("Выводим что нибудь");
     }
 
 }
