@@ -36,6 +36,20 @@ namespace MobileProjectSamsung.Authenticate.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterModel model)
+        {
+            var user = _userService.Register(model.Username, model.Password, model.FirstName, model.LastName, model.Role);
+
+            if (user == null)
+            {
+                return BadRequest(new { message = "Пользователь с указанным именем уже зарегестрирован" });
+            }
+
+            return Ok(user);
+        }
+
         [Authorize(Roles = Role.Admin)]
         [HttpGet("testadmin")]
         public IActionResult TestAdmin()
@@ -54,7 +68,8 @@ namespace MobileProjectSamsung.Authenticate.Controllers
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return Ok(new { message = "test" });
+            //return Ok(new { message = "test" });
+            return BadRequest("error test");
         }
 
     }

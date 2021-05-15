@@ -8,7 +8,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using BC = BCrypt.Net.BCrypt;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace MobileProjectSamsung.Authenticate.Services.UserService
 {
@@ -25,15 +27,37 @@ namespace MobileProjectSamsung.Authenticate.Services.UserService
 
         public User Authenticate(string username, string password)
         {
-            var user = _dataContext.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
 
-            if (user == null)
+            var user = _dataContext.Users.SingleOrDefault(u => u.Username == username);
+
+            if (user == null || !BC.Verify(password, user.Password))
+            {
+                return null;
+            }
+            else
+            {
+                GenerateToken(user);
+                return user.WithoutPassword();
+            }
+
+        }
+
+        public User Register(string username, string password, string firstName, string lastName, string role)
+        {
+
+            var user = _dataContext.Users.SingleOrDefault(u => u.Username == username);
+
+            if (user != null)
             {
                 return null;
             }
 
-            GenerateToken(user);
+            user = new User(username, BC.HashPassword(password), firstName, lastName, role);
 
+            _dataContext.Users.Add(user);
+            _dataContext.SaveChanges();
+
+            GenerateToken(user);
             return user.WithoutPassword();
         }
 

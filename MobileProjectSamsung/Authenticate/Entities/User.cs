@@ -16,5 +16,14 @@ namespace MobileProjectSamsung.Authenticate.Entities
         public string Role { get; set; }
         public string Token { get; set; }
         public string Password { get; set; }
+
+        public User(string username, string password, string firstName, string lastName, string role)
+        {
+            Username = username;
+            FirstName = firstName;
+            LastName = lastName;
+            Role = role;
+            Password = password;
+        }
     }
 }
