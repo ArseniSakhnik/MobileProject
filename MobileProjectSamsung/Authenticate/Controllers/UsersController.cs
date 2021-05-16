@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MobileProjectSamsung.Authenticate.Entities;
-using MobileProjectSamsung.Authenticate.Models;
-using MobileProjectSamsung.Authenticate.Services.UserService;
+using MobileProjectSamsung.Application.Entities;
+using MobileProjectSamsung.Application.Models;
+using MobileProjectSamsung.Application.Services.UserService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MobileProjectSamsung.Authenticate.Controllers
+namespace MobileProjectSamsung.Application.Controllers
 {
     [Authorize]
     [ApiController]
@@ -16,10 +18,12 @@ namespace MobileProjectSamsung.Authenticate.Controllers
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [AllowAnonymous]
@@ -68,8 +72,14 @@ namespace MobileProjectSamsung.Authenticate.Controllers
         [HttpGet("test")]
         public IActionResult Test()
         {
-            //return Ok(new { message = "test" });
             return BadRequest("error test");
+        }
+
+        [Authorize]
+        [HttpGet("testusername")]
+        public IActionResult TestUserName()
+        {
+            return Ok(new { message = $"U are {User.FindFirstValue(ClaimTypes.Name)} with role {User.FindFirstValue(ClaimTypes.Role)}" });
         }
 
     }

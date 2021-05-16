@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MobileProjectSamsung.Authenticate.Models
+namespace MobileProjectSamsung.Application.Models
 {
     public class AuthenticateModel
     {

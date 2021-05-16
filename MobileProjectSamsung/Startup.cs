@@ -7,8 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using MobileProjectSamsung.Authenticate.Helpers;
-using MobileProjectSamsung.Authenticate.Services.UserService;
+using MobileProjectSamsung.Application.Data;
+using MobileProjectSamsung.Application.Services.CouponCreatorService;
+using MobileProjectSamsung.Application.Services.UserService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,8 @@ namespace MobileProjectSamsung
 
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICouponCreatorService, CouponCreatorService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

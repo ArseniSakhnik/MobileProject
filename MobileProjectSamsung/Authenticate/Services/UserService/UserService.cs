@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MobileProjectSamsung.Authenticate.Entities;
-using MobileProjectSamsung.Authenticate.Helpers;
+using MobileProjectSamsung.Application.Entities;
+using MobileProjectSamsung.Application.Data;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,7 +12,7 @@ using BC = BCrypt.Net.BCrypt;
 using System.Threading.Tasks;
 using BCrypt.Net;
 
-namespace MobileProjectSamsung.Authenticate.Services.UserService
+namespace MobileProjectSamsung.Application.Services.UserService
 {
     public class UserService : IUserService
     {

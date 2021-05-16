@@ -1,10 +1,10 @@
-﻿using MobileProjectSamsung.Authenticate.Entities;
+﻿using MobileProjectSamsung.Application.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MobileProjectSamsung.Authenticate.Services.UserService
+namespace MobileProjectSamsung.Application.Services.UserService
 {
     public interface IUserService
     {
