@@ -10,15 +10,23 @@ namespace MobileProjectSamsung.Application.Entities
     {
         [Key]
         public int Id { get; set; }
-        public int UserId { get; set; }
-        [Required]
-        public User User { get; set; }
-        public int CouponCreatorId { get; set; }
+        public User CouponUser { get; set; }
+        public string CouponUserUsername { get; set; }
         [Required]
         public CouponCreator CouponCreator { get; set; }
+        public int CouponCreatorId { get; set; }
+
         public bool WasActivated { get; set; } = false;
         public bool IsActive { get => WasActivated && CouponCreator.IsActive; }
         public string Description { get => CouponCreator.Description; }
         public DateTime? EndOfCoupon { get => CouponCreator.EndOfCoupon; }
+
+        public Coupon() { }
+
+        public Coupon(User user, CouponCreator couponCreator)
+        {
+            CouponUser = user;
+            CouponCreator = couponCreator;
+        }
     }
 }

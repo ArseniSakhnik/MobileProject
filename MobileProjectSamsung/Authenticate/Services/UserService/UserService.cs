@@ -11,6 +11,8 @@ using System.Text;
 using BC = BCrypt.Net.BCrypt;
 using System.Threading.Tasks;
 using BCrypt.Net;
+using MobileProjectSamsung.Application.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace MobileProjectSamsung.Application.Services.UserService
 {
@@ -32,7 +34,7 @@ namespace MobileProjectSamsung.Application.Services.UserService
 
             if (user == null || !BC.Verify(password, user.Password))
             {
-                return null;
+                throw new LogicException("Неправильный логин или пароль");
             }
             else
             {
@@ -49,7 +51,7 @@ namespace MobileProjectSamsung.Application.Services.UserService
 
             if (user != null)
             {
-                return null;
+                throw new LogicException("Пользователь с указанным именем уже существует");
             }
 
             user = new User(username, BC.HashPassword(password), firstName, lastName, role);
@@ -59,6 +61,18 @@ namespace MobileProjectSamsung.Application.Services.UserService
 
             GenerateToken(user);
             return user.WithoutPassword();
+        }
+
+        public User GetUserByUsername(string username, bool withCupons = false)
+        {
+            if (withCupons)
+            {
+                return _dataContext.Users.Where(u => u.Username == username).Include(u => u.Coupons).SingleOrDefault();
+            }
+            else
+            {
+                return _dataContext.Users.SingleOrDefault(u => u.Username == username);
+            }
         }
 
         public void GenerateToken(User user)

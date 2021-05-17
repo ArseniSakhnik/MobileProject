@@ -10,5 +10,6 @@ namespace MobileProjectSamsung.Application.Services.UserService
     {
         User Authenticate(string username, string password);
         User Register(string username, string password, string firstName, string lastName, string role);
+        User GetUserByUsername(string username, bool withCoupons = false);
     }
 }

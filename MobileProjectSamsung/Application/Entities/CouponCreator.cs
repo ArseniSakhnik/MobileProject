@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MobileProjectSamsung.Application.Entities
@@ -18,9 +19,10 @@ namespace MobileProjectSamsung.Application.Entities
         public List<Coupon> Coupons { get; set; }
         [MinLength(10), MaxLength(100)]
         public string Description { get; set; }
-        [Required]
+        [Required, JsonIgnore]
         public User UserCreator { get; set; }
-        public int UserCreatorId { get; set; }
+        [JsonIgnore]
+        public string UserCreatorUsername { get; set; }
 
         public CouponCreator()
         {

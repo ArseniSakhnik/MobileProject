@@ -19,7 +19,7 @@ namespace MobileProjectSamsung.Application.Entities
         [Required]
         public string Role { get; set; }
         public string Token { get; set; }
-        [Required, MinLength(4)]
+        [Required, MinLength(4), JsonIgnore]
         public string Password { get; set; }
         public List<Coupon> Coupons { get; set; }
 

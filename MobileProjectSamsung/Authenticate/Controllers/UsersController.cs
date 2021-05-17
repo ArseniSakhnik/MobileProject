@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileProjectSamsung.Application.Entities;
+using MobileProjectSamsung.Application.Exceptions;
 using MobileProjectSamsung.Application.Models;
 using MobileProjectSamsung.Application.Services.UserService;
 using System;
@@ -27,31 +28,33 @@ namespace MobileProjectSamsung.Application.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
+        [HttpPost("authenticate")]  
         public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
-            var user = _userService.Authenticate(model.Username, model.Password);
-
-            if (user == null)
+            try
             {
-                return BadRequest(new { message = "Нерпавильный логин или праоль" });
+                var user = _userService.Authenticate(model.Username, model.Password);
+                return Ok(user);
             }
-
-            return Ok(user);
+            catch (LogicException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterModel model)
         {
-            var user = _userService.Register(model.Username, model.Password, model.FirstName, model.LastName, model.Role);
-
-            if (user == null)
+            try
             {
-                return BadRequest(new { message = "Пользователь с указанным именем уже зарегестрирован" });
+                var user = _userService.Register(model.Username, model.Password, model.FirstName, model.LastName, model.Role);
+                return Ok(user);
             }
-
-            return Ok(user);
+            catch (LogicException ex)
+            {
+                return BadRequest(new { message = ex.Message }); 
+            }
         }
 
         [Authorize(Roles = Role.Admin)]
