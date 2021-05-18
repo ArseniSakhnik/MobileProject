@@ -23,6 +23,23 @@ namespace MobileProjectSamsung.Application.Services.CouponService
             _couponCreatorService = couponCreatorService;
         }
 
+        public List<Coupon> GetUserCoupons(string username)
+        {
+            try
+            {
+                var user = _userService.GetUserByUsername(username, withCoupons: true);
+                if (user.Coupons.Count() == 0)
+                {
+                    throw new LogicException("У пользователя ещё нет купонов.");
+                }
+                return user.Coupons;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public Coupon AddCouponToUserWithExceptions(string username, int couponCreatorId, double? userLocationX = null, double? userLocationY = null)
         {
             try
