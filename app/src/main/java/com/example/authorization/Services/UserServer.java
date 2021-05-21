@@ -10,4 +10,6 @@ public interface UserServer {
     Call<AuthenticateResponse> authentication(@Body AuthenticateRequest request);
     @GET("/users/test")
     Call<TestResponse> test();
+    @POST("/users/register")
+    Call<RegisterResponse> register(@Body RegisterRequest request);
 }

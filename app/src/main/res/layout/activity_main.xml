@@ -6,44 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/login"
-        android:background="#efefef"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:hint="Введите логин"
-
-        app:layout_constraintBottom_toTopOf="@id/password"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <EditText
-        android:id="@+id/password"
-        android:background="#efefef"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:hint="Введите пароль"
-
-        app:layout_constraintTop_toBottomOf="@id/login"
-        app:layout_constraintBottom_toTopOf="@id/buttonEntrance"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        />
-
     <Button
         android:id="@+id/buttonEntrance"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:background="#efefef"
         android:onClick="check"
-        android:text="Вход"
+        android:text="@string/Entrance"
 
-        app:layout_constraintTop_toBottomOf="@id/password"
         app:layout_constraintBottom_toTopOf="@id/buttonRegistration"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear"
+
+        />
 
     <Button
         android:id="@+id/buttonRegistration"
@@ -51,7 +27,7 @@
         android:layout_height="100dp"
         android:background="#efefef"
         android:onClick="goToRegistration"
-        android:text="Регистрация"
+        android:text="@string/Registration"
 
         app:backgroundTint="#AC1818"
         app:layout_constraintBottom_toTopOf="@id/output"
@@ -64,8 +40,8 @@
         android:layout_width="299dp"
         android:layout_height="140dp"
         android:background="@color/purple_200"
-        android:text="Вывод текста"
-        android:textSize="25dp"
+        android:text="@string/output"
+        android:textSize="25sp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -73,26 +49,41 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonRegistration" />
 
-    <TextView
-        android:id="@+id/tvTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Вывод"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/output" />
+    <FrameLayout
+        android:layout_width="260dp"
+        android:layout_height="190dp"
+        android:orientation="vertical"
+        android:id="@+id/linear"
+        app:layout_constraintBottom_toTopOf="@id/buttonEntrance"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/aboba"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="111dp" />
+
+        <EditText
+            android:id="@+id/login"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="#efefef"
+            android:hint="Введите логин"
+
+            app:layout_constraintBottom_toTopOf="@id/password"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="center_horizontal"
+            android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="#efefef"
+            android:hint="Введите пароль"
+
+            android:layout_gravity="bottom|center_horizontal"
+            android:autofillHints="" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,44 +6,68 @@
     android:layout_height="match_parent"
     tools:context=".Registration">
 
+
     <EditText
-        android:id="@+id/oneLogin"
-        android:background="#efefef"
+        android:id="@+id/tvFirstName"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:hint="Придумайте логин"
+        android:background="#efefef"
+        android:hint="Напишите имя"
 
-        app:layout_constraintBottom_toTopOf="@id/twoLogin"
+        android:textColor="#FF7E7575"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:layout_constraintBottom_toTopOf="@id/tvLastName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/twoLogin"
-        android:background="#efefef"
+        android:id="@+id/tvLastName"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:hint="Повторите логин"
+        android:background="#efefef"
+        android:textColor="#7E7575"
+        android:textSize="18sp"
+        android:hint="Напишите фамилию"
 
-        app:layout_constraintTop_toBottomOf="@id/oneLogin"
+
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/oneLogin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvFirstName" />
+
+    <EditText
+        android:id="@+id/oneLogin"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="#efefef"
+        android:hint="Придумайте логин"
+
+        android:textColor="#000000"
+        android:textColorHighlight="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/onePassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tvLastName" />
 
     <EditText
         android:id="@+id/onePassword"
-        android:background="#efefef"
         android:layout_width="200dp"
         android:layout_height="50dp"
+        android:background="#efefef"
         android:hint="Придумайте пароль"
 
-        app:layout_constraintTop_toBottomOf="@id/twoLogin"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/twoPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/oneLogin" />
 
     <EditText
         android:id="@+id/twoPassword"
@@ -52,11 +76,13 @@
         android:background="#efefef"
         android:hint="Повторите пароль"
 
-        app:layout_constraintTop_toBottomOf="@id/onePassword"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/buttonRegistration"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/onePassword" />
 
     <Button
         android:id="@+id/buttonRegistration"
@@ -71,5 +97,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

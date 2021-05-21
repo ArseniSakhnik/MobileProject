@@ -27,8 +27,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Service extends AppCompatActivity{
     private final static String FILE_NAME = "content.txt";
     private TextView tvTest;
-    private String setText = "aboba";
+    public String username;
+    public int check;
 
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 
     protected Retrofit retrofit;
     protected UserServer server;
@@ -76,13 +92,8 @@ public class Service extends AppCompatActivity{
                             + authenticateResponse.username
                             + " Токен " + authenticateResponse.token);
 
-                    tvTest.setText("Имя пользователя: " + authenticateResponse.username + "Токен: " + authenticateResponse.token);
-                    Log.d("Asp.net core", "Запрос выполнился ");
-                    //Intent intent = new Intent("android.intent.action.Registration");
-                    //Intent intent = new Intent(context, Registration.class);
-                    //startActivity(intent);
-                    //setText("Имя пользователя: " + authenticateResponse.username + "Токен: " + authenticateResponse.token);
-                    //syncResult.setResult("Имя пользователя: " + authenticateResponse.username + "Токен: " + authenticateResponse.token);
+                    setUsername(authenticateResponse.token);
+                    setCheck(1);
 
 
                 } else {
@@ -97,18 +108,8 @@ public class Service extends AppCompatActivity{
 
             }
         });
-        //setText = syncResult.getResult();
+
     }
-
-     public void setText (String string)
-     {
-         this.setText = string;
-     }
-
-     public String getText()
-     {
-         return setText;
-     }
 
     public void test() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
@@ -122,10 +123,7 @@ public class Service extends AppCompatActivity{
         this.retrofit = retrofit;
 
 
-
-        final SyncResult syncResult = new SyncResult();
         Call<TestResponse> call = this.server.test();
-        syncResult.setResult("1");
         call.enqueue(new Callback<TestResponse>() {
             @Override
             public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
@@ -144,5 +142,33 @@ public class Service extends AppCompatActivity{
                 //tvTest.setText("Нет подключения к серверу");
             }
         });
+    }
+
+    public void register(String username, String firstName, String lastName, String password)
+    {
+        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        server = retrofit.create(UserServer.class);
+        this.retrofit = retrofit;
+        Call<RegisterResponse> call = this.server.register(new RegisterRequest(username,firstName, lastName, password));
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+
+            }
+        });
+
+
+
     }
 }
