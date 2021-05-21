@@ -15,7 +15,7 @@ public class Registration extends AppCompatActivity {
     }
 
     public void Registration(View view) {
-        Intent intent = new Intent("android.intent.action.MAIN");
+        Intent intent = new Intent(Registration.this,MainActivity.class);
         startActivity(intent);
     }
 }

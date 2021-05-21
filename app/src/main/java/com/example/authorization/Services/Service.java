@@ -1,11 +1,21 @@
 package com.example.authorization.Services;
 
 import android.app.AppComponentFactory;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.authorization.MainActivity;
 import com.example.authorization.R;
+import com.example.authorization.Registration;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -14,22 +24,125 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Service {
+public class Service extends AppCompatActivity{
+    private final static String FILE_NAME = "content.txt";
+    private TextView tvTest;
+    private String setText = "aboba";
+
 
     protected Retrofit retrofit;
     protected UserServer server;
+    SyncResult syncResult = new SyncResult();
 
-    public Service() {
+     public Service() {
+         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+
+         Retrofit retrofit = new Retrofit.Builder()
+                 .baseUrl("http://10.0.2.2:5000/")
+                 .addConverterFactory(GsonConverterFactory.create())
+                 .build();
+
+         server = retrofit.create(UserServer.class);
+         this.retrofit = retrofit;
+     }
+
+
+     public Service (TextView textView)
+     {
+         this.tvTest = textView;
+     }
+
+    public void authenticate(String username, String password) {
+
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://localhost:44313")
-                .client(okHttpClient)
+                .baseUrl("http://10.0.2.2:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         server = retrofit.create(UserServer.class);
         this.retrofit = retrofit;
+
+        Call<AuthenticateResponse> call = this.server.authentication(new AuthenticateRequest(username, password));
+
+        call.enqueue(new Callback<AuthenticateResponse>() {
+            @Override
+            public void onResponse(Call<AuthenticateResponse> call, Response<AuthenticateResponse> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Запрос удался");
+                    AuthenticateResponse authenticateResponse = response.body();
+                    System.out.println("Имя пользователя "
+                            + authenticateResponse.username
+                            + " Токен " + authenticateResponse.token);
+
+                    tvTest.setText("Имя пользователя: " + authenticateResponse.username + "Токен: " + authenticateResponse.token);
+                    Log.d("Asp.net core", "Запрос выполнился ");
+                    //Intent intent = new Intent("android.intent.action.Registration");
+                    //Intent intent = new Intent(context, Registration.class);
+                    //startActivity(intent);
+                    //setText("Имя пользователя: " + authenticateResponse.username + "Токен: " + authenticateResponse.token);
+                    //syncResult.setResult("Имя пользователя: " + authenticateResponse.username + "Токен: " + authenticateResponse.token);
+
+
+                } else {
+                    System.out.println("Сервер вернул ошибку");
+                    //tvTest.setText("Сервер вернул ошибку");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthenticateResponse> call, Throwable t) {
+                System.out.println("Ошибка подключения к серверу");
+
+            }
+        });
+        //setText = syncResult.getResult();
     }
 
+     public void setText (String string)
+     {
+         this.setText = string;
+     }
+
+     public String getText()
+     {
+         return setText;
+     }
+
+    public void test() {
+        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        server = retrofit.create(UserServer.class);
+        this.retrofit = retrofit;
+
+
+
+        final SyncResult syncResult = new SyncResult();
+        Call<TestResponse> call = this.server.test();
+        syncResult.setResult("1");
+        call.enqueue(new Callback<TestResponse>() {
+            @Override
+            public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
+                if (response.isSuccessful()) {
+                    syncResult.setResult("Запрос удался");
+                    //tvTest.setText("Запрос удался");
+                } else {
+                    syncResult.setResult("Сервер вернул ошибку");
+                    //tvTest.setText("Сервер вернул ошибку");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TestResponse> call, Throwable t) {
+                syncResult.setResult("Нет подключения к серверу");
+                //tvTest.setText("Нет подключения к серверу");
+            }
+        });
+    }
 }

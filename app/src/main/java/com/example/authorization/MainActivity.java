@@ -1,13 +1,11 @@
  package com.example.authorization;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,17 +15,38 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.example.authorization.Services.UsersService;
+import com.example.authorization.Services.AuthenticateRequest;
+import com.example.authorization.Services.AuthenticateResponse;
+import com.example.authorization.Services.OnRequestFinishedListener;
+import com.example.authorization.Services.Service;
+import com.example.authorization.Services.SyncResult;
+import com.example.authorization.Services.TestResponse;
+import com.example.authorization.Services.UnsafeOkHttpClient;
+import com.example.authorization.Services.UserServer;
 import com.example.authorization.Services.UsersService;
 import com.example.authorization.checkGPS.LocListenerInterface;
 import com.example.authorization.checkGPS.MyLocListener;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
  public class MainActivity extends AppCompatActivity implements LocListenerInterface {
 
+     private final static String FILE_NAME = "content.txt";
      private LocationManager locationManager;
      private MyLocListener myLocListener;
-     private TextView output, tvTest;
+     private TextView output, tvTest, aboba;
      private String outs;
 
     @Override
@@ -37,19 +56,18 @@ import com.example.authorization.checkGPS.MyLocListener;
 
         output = findViewById(R.id.output);
         tvTest = findViewById(R.id.tvTest);
+        aboba = findViewById(R.id.aboba);
         init();
+        //UsersService usersService = new UsersService(output);
+        //usersService.authenticate("admin", "admin");
+        Service service = new Service(output);
+        service.authenticate("admin", "admin");
+        aboba.setText(output.getText().toString().trim());
+        //try {
+        //    Thread.sleep(50000); //Приостанавливает поток на 1 секунду
+        //} catch (Exception e) {
+        //}
 
-        UsersService usersService = new UsersService();
-        usersService.authenticate("admin","admin");
-        tvTest.setText(usersService.test());
-
-        //UserService2 userService2 = new UserService2();
-        //userService2.authenticate("admin", "admin");
-        //tvTest.setText(String.valueOf(userService2.test()));
-
-        //tvTest.setText(String.valueOf(usersService.test()));
-        //outs = usersService.test();
-        //tvTest.setText(usersService.test());
     }
 
     private  void init()
@@ -65,28 +83,39 @@ import com.example.authorization.checkGPS.MyLocListener;
         EditText receivingPassword = findViewById(R.id.password);
         String login = receivingLogin.getText().toString().trim();
         String password = receivingPassword.getText().toString().trim();
-        // Сюда вводим логин
-        String checkLogin = "login";
-        // Сюда вводим пароль
-        String checkPassword = "password";
-        if(login.equals(checkLogin) && password.equals(checkPassword))
-        {
-           textOutput();
-        }
-        else
-        {
-            AlertDialog.Builder y_builder = new AlertDialog.Builder(MainActivity.this);
-            y_builder.setMessage("Неправильный логин или пароль.")
-                    .setCancelable(false)
-                    .setNeutralButton("ОК", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = y_builder.create();
-            alert.show();
-        }
+
+
+        //// Сюда вводим логин
+        //String checkLogin = "login";
+        //// Сюда вводим пароль
+        //String checkPassword = "password";
+        //if(login.equals(checkLogin) && password.equals(checkPassword))
+        //{
+        //   textOutput();
+        //}
+        //else
+        //{
+        //    AlertDialog.Builder y_builder = new AlertDialog.Builder(MainActivity.this);
+        //    y_builder.setMessage("Неправильный логин или пароль.")
+        //            .setCancelable(false)
+        //            .setNeutralButton("ОК", new DialogInterface.OnClickListener() {
+        //                @Override
+        //                public void onClick(DialogInterface dialog, int which) {
+        //                    dialog.cancel();
+        //                }
+        //            });
+        //    AlertDialog alert = y_builder.create();
+        //    alert.show();
+        //}
+        //UsersService usersService = new UsersService(output);
+        //usersService.authenticate("admin", "admin");
+        //Service service = new Service(output,view,context);
+        //try {
+        //    Thread.sleep(1000); //Приостанавливает поток на 1 секунду
+        //} catch (Exception e) {
+//
+        //}
+        //service.authenticate("admin","admin");
     }
 
     // Отедльный метод для вывода текста в TextView, который называется output.
@@ -97,7 +126,7 @@ import com.example.authorization.checkGPS.MyLocListener;
     }
 
     public void goToRegistration(View view) {
-        Intent intent = new Intent("android.intent.action.Registration");
+        Intent intent = new Intent(MainActivity.this,Registration.class);
         startActivity(intent);
     }
 
@@ -133,4 +162,5 @@ import com.example.authorization.checkGPS.MyLocListener;
          //    Toast.makeText(this,"No GPS permissions", Toast.LENGTH_SHORT).show();
          //}
      }
+
  }
