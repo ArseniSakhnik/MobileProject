@@ -49,7 +49,7 @@ namespace MobileProjectSamsung.Application.Data
                     FirstName = "Counterparty",
                     LastName = "counterparty",
                     Role = Role.Counterparty,
-                    Password = BC.HashPassword("Counterparty")
+                    Password = BC.HashPassword("counterparty")
                 },
                 new
                 {

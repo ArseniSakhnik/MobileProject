@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MobileProjectSamsung.Application.Services.CouponService
 {
@@ -46,7 +47,7 @@ namespace MobileProjectSamsung.Application.Services.CouponService
             {
                 return AddCouponToUser(username, couponCreatorId, userLocationX, userLocationY);
             }
-            catch
+            catch (Exception ex)
             {
                 throw;
             }
@@ -60,28 +61,39 @@ namespace MobileProjectSamsung.Application.Services.CouponService
 
             if (coupon != null)
             {
-                throw new LogicException("Пользователь уже узял этот купон");
+                throw new LogicException("Пользователь уже узял этот купон.");
             }
 
-            if (couponCreator.EndOfCoupon != null && couponCreator.EndOfCoupon > DateTime.UtcNow)
+            if (couponCreator == null)
             {
-                throw new LogicException("Время действия купона истекло.");
+                throw new LogicException("Выбранное предложение удалено.");
             }
 
-            if (userLocationX != null && userLocationY != null && CheckLocationIsNeeded(couponCreator))
+            if (couponCreator.EndOfCoupon != null)
             {
-                if (CheckLocationConditionsOfUser(userLocationX, userLocationY, couponCreator.TargetX, couponCreator.TargetY, couponCreator.Radius))
+                if (couponCreator.EndOfCoupon < DateTime.UtcNow)
+                {
+                    throw new LogicException("Время действия купона истекло");
+                }
+            }
+
+            if (couponCreator.TargetX != null)
+            {
+                if (userLocationX == null)
+                {
+                    throw new LogicException("Для использования этого купона необходима геолокация пользователя");
+                }
+
+
+                if (CheckLocationConditionsOfUser(userLocationX,
+                    userLocationY, couponCreator.TargetX, couponCreator.TargetY, couponCreator.Radius))
                 {
                     coupon = new Coupon(user, couponCreator);
                 }
                 else
                 {
-                    throw new LogicException("Неподходящее местоположение для пользователя");
+                    throw new LogicException("Неподходящая позиция для пользователя");
                 }
-            }
-            else if ((userLocationX == null || userLocationY == null) && CheckLocationIsNeeded(couponCreator))
-            {
-                throw new LogicException("Необходимо отправить локацию пользователя для этого предложения");
             }
             else
             {
@@ -96,21 +108,22 @@ namespace MobileProjectSamsung.Application.Services.CouponService
 
         public Coupon RemoveCouponFromUser(string username, int couponId)
         {
-            var user = _userService.GetUserByUsername(username);
+            var user = _userService.GetUserByUsername(username, withCoupons:true);
 
             if (user == null)
             {
                 throw new LogicException("Пользователь не найден");
             }
 
-            var coupon = _dataContext.Coupons.SingleOrDefault(c => c.Id == couponId);
+            var coupon = _dataContext.Coupons.Where(c => c.Id == couponId).Include(c => c.CouponCreator).SingleOrDefault();
 
             if (coupon == null)
             {
                 throw new LogicException("Купон уже удален или не был выбран");
             }
 
-            user.Coupons.Remove(coupon);
+
+            _dataContext.Coupons.Remove(coupon);
 
             _dataContext.SaveChanges();
 
@@ -120,11 +133,6 @@ namespace MobileProjectSamsung.Application.Services.CouponService
         private bool CheckLocationConditionsOfUser(double? userX, double? userY, double? targetX, double? targetY, double? targetRadius)
         {
             return Math.Pow(((double)userX - (double)targetX), 2) + Math.Pow(((double)userY - (double)targetY), 2) <= Math.Pow((double)targetRadius, 2);
-        }
-
-        private bool CheckLocationIsNeeded(CouponCreator couponCreator)
-        {
-            return _couponCreatorService.CheckLocationProperties(couponCreator.TargetX, couponCreator.TargetY, couponCreator.Radius);
         }
 
 

@@ -13,7 +13,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
 {
     [Authorize]
     [ApiController]
-    [Route("controller")]
+    [Route("[controller]")]
     public class CouponController : ControllerBase
     {
         private readonly ICouponService _couponService;
@@ -38,7 +38,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
             }
         }
 
-        [HttpPost("addCouponToUser/{id}")]
+        [HttpPost("addCouponToUser/{couponId}")]
         public IActionResult AddCouponToUser(int couponId, [FromBody] AddCouponToUserRequest model)
         {
             try
@@ -53,7 +53,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
             }
         }
 
-        [HttpDelete("removeCouponFromUser/{id}")]
+        [HttpDelete("removeCouponFromUser/{couponId}")]
         public IActionResult RemoveCouponFromUser(int couponId)
         {
             try

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MobileProjectSamsung.Application.Data;
 using MobileProjectSamsung.Application.Services.CouponCreatorService;
+using MobileProjectSamsung.Application.Services.CouponService;
 using MobileProjectSamsung.Application.Services.UserService;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,7 @@ namespace MobileProjectSamsung
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICouponCreatorService, CouponCreatorService>();
+            services.AddScoped<ICouponService, CouponService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 

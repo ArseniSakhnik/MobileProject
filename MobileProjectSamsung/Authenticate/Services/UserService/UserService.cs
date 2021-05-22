@@ -63,11 +63,11 @@ namespace MobileProjectSamsung.Application.Services.UserService
             return user.WithoutPassword();
         }
 
-        public User GetUserByUsername(string username, bool withCupons = false)
+        public User GetUserByUsername(string username, bool withCupons = true)
         {
             if (withCupons)
             {
-                return _dataContext.Users.Where(u => u.Username == username).Include(u => u.Coupons).SingleOrDefault();
+                return _dataContext.Users.Where(u => u.Username == username).Include(u => u.Coupons).ThenInclude(c => c.CouponCreator).SingleOrDefault();
             }
             else
             {

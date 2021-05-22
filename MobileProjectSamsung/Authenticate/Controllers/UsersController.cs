@@ -75,7 +75,7 @@ namespace MobileProjectSamsung.Application.Controllers
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return BadRequest("error test");
+            return Ok(new { message = "test" });
         }
 
         [Authorize]
