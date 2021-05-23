@@ -23,10 +23,10 @@ namespace MobileProjectSamsung.Application.Conrtollers
             _couponCreatorService = couponCreatorService;
         }
 
-        [HttpGet("getCouponList")]
-        public IActionResult GetCouponCreatorListByFirstAndLastId([FromBody] GetCouponCreatorListRequest model)
+        [HttpGet("getCouponList/{startId}/{endId}")]
+        public IActionResult GetCouponCreatorListByFirstAndLastId(int startId, int endId)
         {
-            var coupons = _couponCreatorService.GetCouponCreatorsByFirstAndLastIndex(model.StartId, model.EndId);
+            var coupons = _couponCreatorService.GetCouponCreatorsByFirstAndLastIndex(startId, endId);
 
             if (coupons.Count == 0)
             {
