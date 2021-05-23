@@ -1,0 +1,25 @@
+ServerService/Models/User.java
+ ServerService.Models.User
+ServerService/UsersService/Requests/AuthenticateRequest.java
+ ServerService.UsersService.Requests.AuthenticateRequest
+ServerService/UsersService/UsersServiceApi.java
+ ServerService.UsersService.UsersServiceApi
+ServerService/CouponCreatorService/Responses/GetCouponListResponse.java
+ ServerService.CouponCreatorService.Responses.GetCouponListResponse
+ServerService/UsersService/UsersService.java
+ ServerService.UsersService.UsersService
+ ServerService.UsersService.UsersService$1
+ ServerService.UsersService.UsersService$2
+ServerService/ServerConnector.java
+ ServerService.ServerConnector
+ServerService/Error/Error.java
+ ServerService.Error.Error
+ServerService/CouponCreatorService/CouponCreatorApi.java
+ ServerService.CouponCreatorService.CouponCreatorApi
+ServerService/CouponCreatorService/CouponCreatorService.java
+ ServerService.CouponCreatorService.CouponCreatorService
+ ServerService.CouponCreatorService.CouponCreatorService$1
+ServerService/Models/CouponCreator.java
+ ServerService.Models.CouponCreator
+com/TestApiJava/TestApiJava.java
+ com.TestApiJava.TestApiJava
