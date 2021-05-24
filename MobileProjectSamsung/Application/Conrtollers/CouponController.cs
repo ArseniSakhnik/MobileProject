@@ -24,7 +24,6 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpGet("getUserCoupons")]
-        [AllowAnonymous]
         public IActionResult GetUserCoupons()
         {
             try

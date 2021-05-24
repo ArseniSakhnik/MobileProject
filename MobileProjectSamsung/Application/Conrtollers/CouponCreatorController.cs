@@ -11,8 +11,9 @@ using System.Threading.Tasks;
 
 namespace MobileProjectSamsung.Application.Conrtollers
 {
-    [Authorize(Roles = Entities.Role.Counterparty)]
+    
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class CouponCreatorController : ControllerBase
     {
@@ -24,6 +25,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpGet("getCouponList/{startId}/{endId}")]
+        [Authorize]
         public IActionResult GetCouponCreatorListByFirstAndLastId(int startId, int endId)
         {
             var coupons = _couponCreatorService.GetCouponCreatorsByFirstAndLastIndex(startId, endId);
@@ -37,6 +39,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpPost("addCouponCreator")]
+        [Authorize(Roles = Entities.Role.Counterparty)]
         public IActionResult AddCouponCreator([FromBody] AddCouponCreatorRequest model)
         {
             try
@@ -52,6 +55,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpDelete("RemoveCouponCreator/{id}")]
+        [Authorize(Roles = Entities.Role.Counterparty)]
         public IActionResult RemoveCouponCreator(int id)
         {
             try
@@ -68,6 +72,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpPut("changeCouponCreator/{id}")]
+        [Authorize(Roles = Entities.Role.Counterparty)]
         public IActionResult ChangeCouponCreator(int id, [FromBody] ChangeCouponCreatorRequest model)
         {
             try
