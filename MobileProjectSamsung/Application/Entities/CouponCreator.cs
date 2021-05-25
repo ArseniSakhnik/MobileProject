@@ -17,7 +17,7 @@ namespace MobileProjectSamsung.Application.Entities
         public DateTime? EndOfCoupon { get; set; } = null;
         public bool IsActive { get => EndOfCoupon > DateTime.Now || EndOfCoupon == null; set => IsActive = value; }
         public List<Coupon> Coupons { get; set; }
-        [MinLength(10), MaxLength(100)]
+        [MinLength(10), MaxLength(100), Required]
         public string Description { get; set; }
         [Required, JsonIgnore]
         public User UserCreator { get; set; }
