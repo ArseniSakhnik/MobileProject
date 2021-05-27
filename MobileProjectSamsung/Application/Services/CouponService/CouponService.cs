@@ -24,11 +24,11 @@ namespace MobileProjectSamsung.Application.Services.CouponService
             _couponCreatorService = couponCreatorService;
         }
 
-        public List<Coupon> GetUserCoupons(string username)
+        public async Task<List<Coupon>> GetUserCouponsAsync(string username)
         {
             try
             {
-                var user = _userService.GetUserByUsername(username, withCoupons: true);
+                var user = await _userService.GetUserByUsernameAsync(username, withCoupons: true);
                 if (user.Coupons.Count() == 0)
                 {
                     throw new LogicException("У пользователя ещё нет купонов.");
@@ -41,11 +41,11 @@ namespace MobileProjectSamsung.Application.Services.CouponService
             }
         }
 
-        public Coupon AddCouponToUserWithExceptions(string username, int couponCreatorId, double? userLocationX = null, double? userLocationY = null)
+        public async Task<Coupon> AddCouponToUserWithExceptionsAsync(string username, int couponCreatorId, double? userLocationX = null, double? userLocationY = null)
         {
             try
             {
-                return AddCouponToUser(username, couponCreatorId, userLocationX, userLocationY);
+                return await AddCouponToUserAsync(username, couponCreatorId, userLocationX, userLocationY);
             }
             catch (Exception ex)
             {
@@ -53,10 +53,10 @@ namespace MobileProjectSamsung.Application.Services.CouponService
             }
         }
 
-        public Coupon AddCouponToUser(string username, int couponCreatorId, double? userLocationX = null, double? userLocationY = null)
+        public async Task<Coupon> AddCouponToUserAsync(string username, int couponCreatorId, double? userLocationX = null, double? userLocationY = null)
         {
-            var user = _userService.GetUserByUsername(username, withCoupons: true);
-            var couponCreator = _couponCreatorService.GetCouponCreatorById(couponCreatorId, withCoupons: true);
+            var user = await _userService.GetUserByUsernameAsync(username, withCoupons: true);
+            var couponCreator = await _couponCreatorService.GetCouponCreatorByIdAsync(couponCreatorId, withCoupons: true);
             var coupon = user.Coupons.Where(c => c.CouponCreatorId == couponCreatorId).SingleOrDefault();
 
             if (coupon != null)
@@ -101,21 +101,21 @@ namespace MobileProjectSamsung.Application.Services.CouponService
             }
 
             _dataContext.Coupons.Add(coupon);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return coupon;
         }
 
-        public Coupon RemoveCouponFromUser(string username, int couponId)
+        public async Task<Coupon> RemoveCouponFromUserAsync(string username, int couponId)
         {
-            var user = _userService.GetUserByUsername(username, withCoupons:true);
+            var user = await _userService.GetUserByUsernameAsync(username, withCoupons:true);
 
             if (user == null)
             {
                 throw new LogicException("Пользователь не найден");
             }
 
-            var coupon = _dataContext.Coupons.Where(c => c.Id == couponId).Include(c => c.CouponCreator).SingleOrDefault();
+            var coupon = await _dataContext.Coupons.Where(c => c.Id == couponId).Include(c => c.CouponCreator).SingleOrDefaultAsync();
 
             if (coupon == null)
             {
@@ -125,7 +125,7 @@ namespace MobileProjectSamsung.Application.Services.CouponService
 
             _dataContext.Coupons.Remove(coupon);
 
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return coupon;
         }

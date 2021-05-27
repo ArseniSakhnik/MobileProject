@@ -26,11 +26,11 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpGet("getCouponListByCount/{startId}/{count}")]
         [Authorize]
-        public IActionResult GetCouponCreatorsByFirstIndexAndCount(int startId, int count) 
+        public async Task<IActionResult> GetCouponCreatorsByFirstIndexAndCount(int startId, int count) 
         {
             try
             {
-                var coupons = _couponCreatorService.GetCouponCreatorsByFirstIndexAndCount(startId, count);
+                var coupons = await _couponCreatorService.GetCouponCreatorsByFirstIndexAndCountAsync(startId, count);
                 return Ok(coupons);
             }
             catch (LogicException ex)
@@ -41,11 +41,11 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpGet("getCouponCreatorListByIdAndSearch/{count}")]
         [Authorize]
-        public IActionResult GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search) 
+        public async Task<IActionResult> GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search) 
         {
             try
             {
-                var coupons = _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCount(count, search);
+                var coupons = await _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCountAsync(count, search);
                 return Ok(coupons);
             }
             catch (LogicException ex)
@@ -56,12 +56,12 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpPost("addCouponCreator")]
         [Authorize(Roles = Entities.Role.Counterparty)]
-        public IActionResult AddCouponCreator([FromBody] AddCouponCreatorRequest model)
+        public async Task<IActionResult> AddCouponCreator([FromBody] AddCouponCreatorRequest model)
         {
             try
             {
                 var userName = User.FindFirstValue(ClaimTypes.Name);
-                var couponCreator = _couponCreatorService.AddCouponCreator(model.TargetX, model.TargetY, model.Radius, model.EndOfCoupon, model.Description, userName);
+                var couponCreator = await _couponCreatorService.AddCouponCreatorAsync(model.TargetX, model.TargetY, model.Radius, model.EndOfCoupon, model.Description, userName);
                 return Ok(couponCreator);
             }
             catch (LogicException ex)
@@ -72,12 +72,12 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpDelete("RemoveCouponCreator/{id}")]
         [Authorize(Roles = Entities.Role.Counterparty)]
-        public IActionResult RemoveCouponCreator(int id)
+        public async Task<IActionResult> RemoveCouponCreator(int id)
         {
             try
             {
                 var userName = User.FindFirstValue(ClaimTypes.Name);
-                var couponCreator = _couponCreatorService.RemoveCouponCreator(id, userName);
+                var couponCreator = await _couponCreatorService.RemoveCouponCreatorAsync(id, userName);
                 return Ok(couponCreator);
             }
             catch (LogicException ex)
@@ -89,12 +89,12 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpPut("changeCouponCreator/{id}")]
         [Authorize(Roles = Entities.Role.Counterparty)]
-        public IActionResult ChangeCouponCreator(int id, [FromBody] ChangeCouponCreatorRequest model)
+        public async Task<IActionResult> ChangeCouponCreator(int id, [FromBody] ChangeCouponCreatorRequest model)
         {
             try
             {
                 var userName = User.FindFirstValue(ClaimTypes.Name);
-                var couponCreator = _couponCreatorService.ChangeCouponCreator(id, model.TargetX, model.TargetY, model.Radius, model.EndOfCoupon, model.Description, userName);
+                var couponCreator = await _couponCreatorService.ChangeCouponCreatorAsync(id, model.TargetX, model.TargetY, model.Radius, model.EndOfCoupon, model.Description, userName);
                 return Ok(couponCreator);
             }
             catch (LogicException ex)

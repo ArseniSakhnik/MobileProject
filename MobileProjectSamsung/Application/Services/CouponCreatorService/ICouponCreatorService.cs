@@ -8,13 +8,13 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
 {
     public interface ICouponCreatorService
     {
-        public CouponCreator GetCouponCreatorById(int id, bool withCoupons = false);
-        public CouponCreator GetCouponCreatorByIdAndUserCreator(int id, string userCreator, bool withCoupons = false);
-        public CouponCreator RemoveCouponCreator(int id, string userCreator);
-        public CouponCreator ChangeCouponCreator(int id, double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreator);
-        public CouponCreator AddCouponCreator(double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreatorName);
-        public List<CouponCreator> GetCouponCreatorsByFirstIndexAndCount(int startId, int count);
+        public Task<CouponCreator> GetCouponCreatorByIdAsync(int id, bool withCoupons = false);
+        public Task<CouponCreator> GetCouponCreatorByIdAndUserCreatorAsync(int id, string userCreator, bool withCoupons = false);
+        public Task<CouponCreator> RemoveCouponCreatorAsync(int id, string userCreator);
+        public Task<CouponCreator> ChangeCouponCreatorAsync(int id, double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreator);
+        public Task<CouponCreator> AddCouponCreatorAsync(double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreatorName);
+        public Task<List<CouponCreator>> GetCouponCreatorsByFirstIndexAndCountAsync(int startId, int count);
         public bool CheckLocationProperties(double? targetX, double? targetY, double? radius);
-        public List<CouponCreator> GetCouponCreatorsBySearchAndFirsIdAndCount(int count, string searchName);
+        public Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName);
     }
 }

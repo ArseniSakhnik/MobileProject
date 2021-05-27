@@ -24,12 +24,12 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpGet("getUserCoupons")]
-        public IActionResult GetUserCoupons()
+        public async Task<IActionResult> GetUserCoupons()
         {
             try
             {
                 var username = User.FindFirstValue(ClaimTypes.Name);
-                var coupons = _couponService.GetUserCoupons(username);
+                var coupons = await _couponService.GetUserCouponsAsync(username);
                 return Ok(coupons);
             }
             catch (LogicException ex)
@@ -39,12 +39,12 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpPost("addCouponToUser/{couponId}")]
-        public IActionResult AddCouponToUser(int couponId, [FromBody] AddCouponToUserRequest model)
+        public async Task<IActionResult> AddCouponToUser(int couponId, [FromBody] AddCouponToUserRequest model)
         {
             try
             {
                 var username = User.FindFirstValue(ClaimTypes.Name);
-                var coupon = _couponService.AddCouponToUserWithExceptions(username, couponId, model.TargetX, model.TargetY);
+                var coupon = await _couponService.AddCouponToUserWithExceptionsAsync(username, couponId, model.TargetX, model.TargetY);
                 return Ok(coupon);
             }
             catch (LogicException ex)
@@ -54,12 +54,12 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpDelete("removeCouponFromUser/{couponId}")]
-        public IActionResult RemoveCouponFromUser(int couponId)
+        public async Task<IActionResult> RemoveCouponFromUser(int couponId)
         {
             try
             {
                 var username = User.FindFirstValue(ClaimTypes.Name);
-                var coupon = _couponService.RemoveCouponFromUser(username, couponId);
+                var coupon = await _couponService.RemoveCouponFromUserAsync(username, couponId);
                 return Ok(coupon);
             }
             catch (LogicException ex)

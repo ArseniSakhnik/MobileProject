@@ -29,11 +29,11 @@ namespace MobileProjectSamsung.Application.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]  
-        public IActionResult Authenticate([FromBody] AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
             try
             {
-                var user = _userService.Authenticate(model.Username, model.Password);
+                var user = await _userService.AuthenticateAsync(model.Username, model.Password);
                 return Ok(user);
             }
             catch (LogicException ex)
@@ -44,11 +44,11 @@ namespace MobileProjectSamsung.Application.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             try
             {
-                var user = _userService.Register(model.Username, model.Password, model.FirstName, model.LastName, model.Role);
+                var user = await _userService.RegisterAsync(model.Username, model.Password, model.FirstName, model.LastName, model.Role);
                 return Ok(user);
             }
             catch (LogicException ex)

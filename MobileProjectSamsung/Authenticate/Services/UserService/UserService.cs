@@ -27,10 +27,10 @@ namespace MobileProjectSamsung.Application.Services.UserService
             _dataContext = dataContext;
         }
 
-        public User Authenticate(string username, string password)
+        public async Task<User> AuthenticateAsync(string username, string password)
         {
 
-            var user = _dataContext.Users.SingleOrDefault(u => u.Username == username);
+            var user = await _dataContext.Users.SingleOrDefaultAsync(u => u.Username == username);
 
             if (user == null || !BC.Verify(password, user.Password))
             {
@@ -44,10 +44,10 @@ namespace MobileProjectSamsung.Application.Services.UserService
 
         }
 
-        public User Register(string username, string password, string firstName, string lastName, string role)
+        public async Task<User> RegisterAsync(string username, string password, string firstName, string lastName, string role)
         {
 
-            var user = _dataContext.Users.SingleOrDefault(u => u.Username == username);
+            var user = await _dataContext.Users.SingleOrDefaultAsync(u => u.Username == username);
 
             if (user != null)
             {
@@ -57,21 +57,21 @@ namespace MobileProjectSamsung.Application.Services.UserService
             user = new User(username, BC.HashPassword(password), firstName, lastName, role);
 
             _dataContext.Users.Add(user);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             GenerateToken(user);
             return user.WithoutPassword();
         }
 
-        public User GetUserByUsername(string username, bool withCupons = true)
+        public async Task<User> GetUserByUsernameAsync(string username, bool withCupons = true)
         {
             if (withCupons)
             {
-                return _dataContext.Users.Where(u => u.Username == username).Include(u => u.Coupons).ThenInclude(c => c.CouponCreator).SingleOrDefault();
+                return await _dataContext.Users.Where(u => u.Username == username).Include(u => u.Coupons).ThenInclude(c => c.CouponCreator).SingleOrDefaultAsync();
             }
             else
             {
-                return _dataContext.Users.SingleOrDefault(u => u.Username == username);
+                return await _dataContext.Users.SingleOrDefaultAsync(u => u.Username == username);
             }
         }
 

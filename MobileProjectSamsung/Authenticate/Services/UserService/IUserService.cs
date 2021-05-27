@@ -8,8 +8,8 @@ namespace MobileProjectSamsung.Application.Services.UserService
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        User Register(string username, string password, string firstName, string lastName, string role);
-        User GetUserByUsername(string username, bool withCoupons = false);
+        public Task<User> AuthenticateAsync(string username, string password);
+        public Task<User> RegisterAsync(string username, string password, string firstName, string lastName, string role);
+        public Task<User> GetUserByUsernameAsync(string username, bool withCoupons = false);
     }
 }

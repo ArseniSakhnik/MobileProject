@@ -19,51 +19,44 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             _dataContext = dataContext;
         }
 
-        public CouponCreator GetCouponCreatorById(int id, bool withCoupons = false)
+        public async Task<CouponCreator> GetCouponCreatorByIdAsync(int id, bool withCoupons = false)
         {
-            CouponCreator couponCreator = null;
 
             if (withCoupons)
             {
-                couponCreator = _dataContext.CouponCreators.Where(c => c.Id == id)
+                return await _dataContext.CouponCreators.Where(c => c.Id == id)
                    .Include(c => c.Coupons)
                    .Include(c => c.UserCreator)
-                   .SingleOrDefault();
+                   .SingleOrDefaultAsync();
             }
             else
             {
-                couponCreator = _dataContext.CouponCreators.Where(c => c.Id == id)
+                return await _dataContext.CouponCreators.Where(c => c.Id == id)
                     .Include(c => c.UserCreator)
-                    .SingleOrDefault();
+                    .SingleOrDefaultAsync();
             }
-
-            return couponCreator;
         }
 
-        public CouponCreator GetCouponCreatorByIdAndUserCreator(int id, string userCreator, bool withCoupons = false)
+        public async Task<CouponCreator> GetCouponCreatorByIdAndUserCreatorAsync(int id, string userCreator, bool withCoupons = false)
         {
-            CouponCreator couponCreator = null;
-
             if (withCoupons)
             {
-                 couponCreator = _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator)
+                 return await _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator)
                     .Include(c => c.Coupons)
                     .Include(c => c.UserCreator)
-                    .SingleOrDefault();
+                    .SingleOrDefaultAsync();
             }
             else
             {
-                couponCreator = _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator)
+                return await _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator)
                     .Include(c => c.UserCreator)
-                    .SingleOrDefault();
+                    .SingleOrDefaultAsync();
             }
-
-            return couponCreator;
         }
 
-        public List<CouponCreator> GetCouponCreatorsByFirstIndexAndCount(int startId, int count)
+        public async Task<List<CouponCreator>> GetCouponCreatorsByFirstIndexAndCountAsync(int startId, int count)
         {
-            var coupons = _dataContext.CouponCreators.Where(c => c.Id >= startId).Take(count).ToList();
+            var coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId).Take(count).ToListAsync();
             if (coupons.Count == 0)
             {
                 throw new LogicException("Не удалось получить купоны");
@@ -71,9 +64,9 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             return coupons;
         }
 
-        public List<CouponCreator> GetCouponCreatorsBySearchAndFirsIdAndCount(int count, string searchName)
+        public async Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName)
         {
-            var coupons = _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Take(count).ToList();
+            var coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Take(count).ToListAsync();
 
             if (coupons.Count == 0)
             {
@@ -83,9 +76,9 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             return coupons;
         }
 
-        public CouponCreator RemoveCouponCreator(int id, string userCreator)
+        public async Task<CouponCreator> RemoveCouponCreatorAsync(int id, string userCreator)
         {
-            var couponCreator = _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator).SingleOrDefault();
+            var couponCreator = await _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator).SingleOrDefaultAsync();
 
             if (couponCreator == null)
             {
@@ -93,19 +86,19 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
 
             _dataContext.CouponCreators.Remove(couponCreator);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return couponCreator;
         }
 
-        public CouponCreator ChangeCouponCreator(int id, double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreator)
+        public async Task<CouponCreator> ChangeCouponCreatorAsync(int id, double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreator)
         {
             if (!CheckLocationProperties(targetX, targetY, radius))
             {
                 throw new LogicException("Необходимо ввести все параметры желаемой области");
             }
 
-            var coupon = GetCouponCreatorByIdAndUserCreator(id, userCreator);
+            var coupon = await GetCouponCreatorByIdAndUserCreatorAsync(id, userCreator);
 
             if (coupon == null)
             {
@@ -118,19 +111,19 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             coupon.EndOfCoupon = endOfCoupon;
             coupon.Description = description;
 
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return coupon;
         }
 
-        public CouponCreator AddCouponCreator(double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreatorName)
+        public async Task<CouponCreator> AddCouponCreatorAsync(double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreatorName)
         {
             if (!CheckLocationProperties(targetX, targetY, radius))
             {
                 throw new LogicException("Необходимо ввести все параметры желаемой области");
             }
 
-            var userCreator = _dataContext.Users.SingleOrDefault(u => u.Username == userCreatorName);
+            var userCreator = await _dataContext.Users.SingleOrDefaultAsync(u => u.Username == userCreatorName);
 
             if (userCreator == null)
             {
@@ -140,7 +133,7 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             var couponCreator = new CouponCreator(targetX, targetY, radius, endOfCoupon, description, userCreator);
 
             _dataContext.CouponCreators.Add(couponCreator);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return couponCreator;
         }
