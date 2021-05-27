@@ -61,6 +61,28 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             return couponCreator;
         }
 
+        public List<CouponCreator> GetCouponCreatorsByFirstIndexAndCount(int startId, int count)
+        {
+            var coupons = _dataContext.CouponCreators.Where(c => c.Id >= startId).Take(count).ToList();
+            if (coupons.Count == 0)
+            {
+                throw new LogicException("Не удалось получить купоны");
+            }
+            return coupons;
+        }
+
+        public List<CouponCreator> GetCouponCreatorsBySearchAndFirsIdAndCount(int count, string searchName)
+        {
+            var coupons = _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Take(count).ToList();
+
+            if (coupons.Count == 0)
+            {
+                throw new LogicException("Не удалось получить купоны");
+            }
+
+            return coupons;
+        }
+
         public CouponCreator RemoveCouponCreator(int id, string userCreator)
         {
             var couponCreator = _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator).SingleOrDefault();
@@ -123,11 +145,6 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             return couponCreator;
         }
 
-        public List<CouponCreator> GetCouponCreatorsByFirstAndLastIndex(int startId, int endId)
-        {
-            return _dataContext.CouponCreators.Where(c => c.Id > startId && c.Id < endId).ToList();
-        }
-
         public bool CheckLocationProperties(double? targetX, double? targetY, double? radius)
         {
             if (targetX == null && targetY == null && radius == null )
@@ -143,14 +160,5 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
                 return false;
             }
         }
-
-        public List<CouponCreator> GetCouponCreatorsBySearchAndFirstAndLastId(int startId, int lastId, string searchName)
-        {
-            return _dataContext.CouponCreators.Where(c => c.Id >= startId && c.Id <= lastId && c.Description.Contains(searchName.Trim())).ToList();
-        }
-
-
-
-        
     }
 }

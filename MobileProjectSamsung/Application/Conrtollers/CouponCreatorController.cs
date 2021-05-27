@@ -24,28 +24,30 @@ namespace MobileProjectSamsung.Application.Conrtollers
             _couponCreatorService = couponCreatorService;
         }
 
-        [HttpGet("getCouponList/{startId}/{endId}")]
+        [HttpGet("getCouponListByCount/{startId}/{count}")]
         [Authorize]
-        public IActionResult GetCouponCreatorListByFirstAndLastId(int startId, int endId)
-        {
-            var coupons = _couponCreatorService.GetCouponCreatorsByFirstAndLastIndex(startId, endId);
-
-            if (coupons.Count == 0)
-            {
-                return BadRequest(new { message = "Не удалось получить предложения." });
-            }
-
-            return Ok(coupons);
-        }
-
-        [HttpGet("getCouponCreatorList/{startId}/{endId}")]
-        public IActionResult GetCouponCreatorBySearchAndFirstAndLastId(int startId, int endId, [FromQuery(Name = "search")] string search)
+        public IActionResult GetCouponCreatorsByFirstIndexAndCount(int startId, int count) 
         {
             try
             {
-                var coupons = _couponCreatorService.GetCouponCreatorsBySearchAndFirstAndLastId(startId, endId, search);
+                var coupons = _couponCreatorService.GetCouponCreatorsByFirstIndexAndCount(startId, count);
                 return Ok(coupons);
-            } 
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("getCouponCreatorListByIdAndSearch/{count}")]
+        [Authorize]
+        public IActionResult GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search) 
+        {
+            try
+            {
+                var coupons = _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCount(count, search);
+                return Ok(coupons);
+            }
             catch (LogicException ex)
             {
                 return BadRequest(new { message = ex.Message });
