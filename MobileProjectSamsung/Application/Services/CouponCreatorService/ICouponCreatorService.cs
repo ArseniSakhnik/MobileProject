@@ -15,5 +15,6 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
         public CouponCreator AddCouponCreator(double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreatorName);
         public List<CouponCreator> GetCouponCreatorsByFirstAndLastIndex(int startId, int endId);
         public bool CheckLocationProperties(double? targetX, double? targetY, double? radius);
+        List<CouponCreator> GetCouponCreatorsBySearchAndFirstAndLastId(int startId, int lastId, string searchName);
     }
 }

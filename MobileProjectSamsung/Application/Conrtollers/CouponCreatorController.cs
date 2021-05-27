@@ -38,6 +38,20 @@ namespace MobileProjectSamsung.Application.Conrtollers
             return Ok(coupons);
         }
 
+        [HttpGet("getCouponCreatorList/{startId}/{endId}")]
+        public IActionResult GetCouponCreatorBySearchAndFirstAndLastId(int startId, int endId, [FromQuery(Name = "search")] string search)
+        {
+            try
+            {
+                var coupons = _couponCreatorService.GetCouponCreatorsBySearchAndFirstAndLastId(startId, endId, search);
+                return Ok(coupons);
+            } 
+            catch (LogicException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("addCouponCreator")]
         [Authorize(Roles = Entities.Role.Counterparty)]
         public IActionResult AddCouponCreator([FromBody] AddCouponCreatorRequest model)

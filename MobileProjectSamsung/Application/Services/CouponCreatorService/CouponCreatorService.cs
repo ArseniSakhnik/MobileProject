@@ -144,6 +144,11 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
         }
 
+        public List<CouponCreator> GetCouponCreatorsBySearchAndFirstAndLastId(int startId, int lastId, string searchName)
+        {
+            return _dataContext.CouponCreators.Where(c => c.Id >= startId && c.Id <= lastId && c.Description.Contains(searchName.Trim())).ToList();
+        }
+
 
 
         
