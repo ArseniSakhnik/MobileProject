@@ -165,7 +165,7 @@ public class Registration extends AppCompatActivity {
         lastName = tvLastName.getText().toString().trim();
         login = oneLogin.getText().toString().trim();
 
-        if ((onePass.equals("") || twoPass.equals("") || firstName.equals("") || lastName.equals("") || login.equals("")) && (!onePass.equals(twoPass))) {
+        if ((onePass.equals("") || twoPass.equals("") || firstName.equals("") || lastName.equals("") || login.equals("")) || (!onePass.equals(twoPass))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Вы ввели не все данные или пароли не совпадают.")
                     .setCancelable(false)
