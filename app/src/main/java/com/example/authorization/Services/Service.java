@@ -4,6 +4,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.authorization.Services.Helpers.UnsafeOkHttpClient;
+import com.example.authorization.Services.Requests.AuthenticateRequest;
+import com.example.authorization.Services.Requests.RegisterRequest;
+import com.example.authorization.Services.Responses.AuthenticateResponse;
+import com.example.authorization.Services.Responses.RegisterResponse;
+import com.example.authorization.Services.ServiceApi.UserServer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -36,8 +42,8 @@ public class Service extends AppCompatActivity{
         return username;
     }
 
-    protected Retrofit retrofit;
-    protected UserServer server;
+    public Retrofit retrofit;
+    public UserServer server;
     //SyncResult syncResult = new SyncResult();
 
      public Service() {
@@ -103,39 +109,6 @@ public class Service extends AppCompatActivity{
             }
         });
 
-    }
-
-    public void test() {
-        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        server = retrofit.create(UserServer.class);
-        this.retrofit = retrofit;
-
-
-        Call<TestResponse> call = this.server.test();
-        call.enqueue(new Callback<TestResponse>() {
-            @Override
-            public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
-                if (response.isSuccessful()) {
-                    //syncResult.setResult("Запрос удался");
-                    //tvTest.setText("Запрос удался");
-                } else {
-                    //syncResult.setResult("Сервер вернул ошибку");
-                    //tvTest.setText("Сервер вернул ошибку");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TestResponse> call, Throwable t) {
-                //syncResult.setResult("Нет подключения к серверу");
-                //tvTest.setText("Нет подключения к серверу");
-            }
-        });
     }
 
     public void register(String username, String firstName, String lastName, String password)

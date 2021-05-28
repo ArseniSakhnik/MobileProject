@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registration"
+    tools:context=".Interface.Registration"
     android:background="#292929">
 
 
@@ -16,6 +16,7 @@
         android:textColorHint="#7d7d7d"
         android:textColor="#9a9a9a"
         android:hint="Напишите имя"
+        android:paddingLeft="10dp"
 
         android:textSize="18sp"
         android:textStyle="bold"
@@ -35,6 +36,7 @@
         android:textColor="#9a9a9a"
         android:textSize="18sp"
         android:hint="Напишите фамилию"
+        android:paddingLeft="10dp"
 
 
         android:textStyle="bold"
@@ -51,6 +53,7 @@
         android:textColorHint="#7d7d7d"
         android:textColor="#9a9a9a"
         android:hint="Придумайте логин"
+        android:paddingLeft="10dp"
 
         android:textColorHighlight="#FFFFFF"
         android:textStyle="bold"
@@ -67,6 +70,7 @@
         android:textColorHint="#7d7d7d"
         android:textColor="#9a9a9a"
         android:hint="Придумайте пароль"
+        android:paddingLeft="10dp"
 
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/twoPassword"
@@ -82,6 +86,7 @@
         android:textColorHint="#7d7d7d"
         android:textColor="#9a9a9a"
         android:hint="Повторите пароль"
+        android:paddingLeft="10dp"
 
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/buttonRegistration"

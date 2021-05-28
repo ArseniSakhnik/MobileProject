@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
-    tools:context=".CheckMyCoupon">
+    tools:context=".Interface.CheckMyCoupon">
 
     <ListView
         android:id="@+id/couponList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:dividerHeight="5dp"
 
         app:layout_constraintBottom_toTopOf="@id/tvAdd"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#333333"
-        tools:context=".ViewCouponCreator">
+        tools:context=".Interface.ViewCouponCreator">
 
         <SearchView
             android:id="@+id/search"
@@ -28,7 +28,8 @@
             android:id="@+id/couponList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below = "@id/search"
+            android:layout_below="@id/search"
+            android:dividerHeight="5dp"
 
             app:layout_constraintBottom_toTopOf="@id/tvAdd"
             app:layout_constraintLeft_toLeftOf="parent"

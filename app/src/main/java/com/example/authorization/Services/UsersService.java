@@ -1,5 +1,8 @@
 package com.example.authorization.Services;
 
+import com.example.authorization.Services.Requests.AuthenticateRequest;
+import com.example.authorization.Services.Responses.AuthenticateResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

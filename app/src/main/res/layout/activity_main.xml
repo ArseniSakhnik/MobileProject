@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewAuthorization"
+    tools:context=".Interface.ViewAuthorization"
     android:background="#292929">
 
     <Button
@@ -54,6 +54,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:autofillHints=""
+            android:paddingLeft="10dp"
 
             android:background="#1c1c1c"
             android:hint="Введите логин"
@@ -72,6 +73,7 @@
             android:textColorHint="#7d7d7d"
             android:textColor="#9a9a9a"
             android:hint="Введите пароль"
+            android:paddingLeft="10dp"
 
             android:layout_gravity="bottom|center_horizontal"
             android:autofillHints="" />

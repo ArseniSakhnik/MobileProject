@@ -28,9 +28,6 @@ import retrofit2.Response;
 
 public class CouponCreatorService extends Service {
     private CouponCreatorApi service;
-    private String viced;
-    ListView couponList;
-    //ArrayList<Coupon> coupons = new ArrayList();
 
     public CouponCreatorService() {
         super();

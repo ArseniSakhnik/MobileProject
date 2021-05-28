@@ -14,18 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Authorization">
-        <activity android:name=".CheckMyCoupon"></activity>
-        <activity android:name=".AddCouponCreator" />
-        <activity android:name=".ChangeCouponCreator" />
-        <activity android:name=".ViewCouponCreator" />
-        <activity android:name=".Registration">
+        <activity android:name=".Interface.CheckMyCoupon"></activity>
+        <activity android:name=".Interface.AddCouponCreator" />
+        <activity android:name=".Interface.ChangeCouponCreator" />
+        <activity android:name=".Interface.ViewCouponCreator" />
+        <activity android:name=".Interface.Registration">
             <intent-filter>
                 <action android:name="android.intent.action.Registration" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewAuthorization">
+        <activity android:name=".Interface.ViewAuthorization">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
