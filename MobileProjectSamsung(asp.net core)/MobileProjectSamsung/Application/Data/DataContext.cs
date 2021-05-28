@@ -47,9 +47,9 @@ namespace MobileProjectSamsung.Application.Data
                 {
                     Username = "сounterparty",
                     FirstName = "Counterparty",
-                    LastName = "counterparty",
+                    LastName = "Counterparty",
                     Role = Role.Counterparty,
-                    Password = BC.HashPassword("counterparty")
+                    Password = BC.HashPassword("сounterparty")
                 },
                 new
                 {
@@ -61,28 +61,7 @@ namespace MobileProjectSamsung.Application.Data
                 }
                 );
 
-            //modelBuilder.Entity<CouponCreator>().HasData(
-            //    new
-            //    {
-            //        Id = 1,
-            //        TargetX = 64.5374,
-            //        TargetY = 39.7788,
-            //        Radius = 68.12,
-            //        UserCreatorUsername = "сounterparty",
-            //        EndOfCoupon = DateTime.Now.AddDays(7),
-            //        Description = "Это тестоый купон на скидку 5%"
-            //    },
-            //    new
-            //    {
-            //        Id = 2,
-            //        TargetX = 97.3423,
-            //        TargetY = 121.213,
-            //        Radius = 80.67,
-            //        UserCreatorUsername = "сounterparty",
-            //        EndOfCoupon = DateTime.Now.AddDays(3),
-            //        Description = "Это ещё один тестовый купон на скидку 10%"
-            //    }
-            //    );
+            
         }
     }
 }
