@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1c1c1c"
+    android:layout_margin="5dp"
+    >
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:background="#1c1c1c"
+        android:gravity="center"
+        android:text="Основное поле"
+        android:textColor="#9a9a9a"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/username"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    " />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="30dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:background="#1c1c1c"
+        android:gravity="center"
+        android:text="id"
+        android:textColor="#9a9a9a"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:background="#1c1c1c"
+        android:freezesText="false"
+        android:gravity="center"
+        android:text="Купон номер:"
+        android:textAllCaps="false"
+        android:textColor="#9a9a9a"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

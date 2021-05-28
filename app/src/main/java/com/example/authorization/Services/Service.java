@@ -1,21 +1,11 @@
 package com.example.authorization.Services;
 
-import android.app.AppComponentFactory;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.authorization.MainActivity;
-import com.example.authorization.R;
-import com.example.authorization.Registration;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -48,14 +38,18 @@ public class Service extends AppCompatActivity{
 
     protected Retrofit retrofit;
     protected UserServer server;
-    SyncResult syncResult = new SyncResult();
+    //SyncResult syncResult = new SyncResult();
 
      public Service() {
          OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
+         Gson gson = new GsonBuilder()
+                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                 .create();
+
          Retrofit retrofit = new Retrofit.Builder()
                  .baseUrl("http://10.0.2.2:5000/")
-                 .addConverterFactory(GsonConverterFactory.create())
+                 .addConverterFactory(GsonConverterFactory.create(gson))
                  .build();
 
          server = retrofit.create(UserServer.class);
@@ -98,7 +92,7 @@ public class Service extends AppCompatActivity{
 
                 } else {
                     System.out.println("Сервер вернул ошибку");
-                    //tvTest.setText("Сервер вернул ошибку");
+                    setCheck(0);
                 }
             }
 
@@ -128,17 +122,17 @@ public class Service extends AppCompatActivity{
             @Override
             public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
                 if (response.isSuccessful()) {
-                    syncResult.setResult("Запрос удался");
+                    //syncResult.setResult("Запрос удался");
                     //tvTest.setText("Запрос удался");
                 } else {
-                    syncResult.setResult("Сервер вернул ошибку");
+                    //syncResult.setResult("Сервер вернул ошибку");
                     //tvTest.setText("Сервер вернул ошибку");
                 }
             }
 
             @Override
             public void onFailure(Call<TestResponse> call, Throwable t) {
-                syncResult.setResult("Нет подключения к серверу");
+                //syncResult.setResult("Нет подключения к серверу");
                 //tvTest.setText("Нет подключения к серверу");
             }
         });

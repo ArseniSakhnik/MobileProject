@@ -1,16 +1,24 @@
 package com.example.authorization;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.authorization.Services.Service;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Registration extends AppCompatActivity {
 
@@ -20,9 +28,12 @@ public class Registration extends AppCompatActivity {
     private EditText onePassword;
     private EditText twoPassword;
 
+    private Timer timer = new Timer();
+    private final long DELAY = 2000; // in ms
+
     private String onePass, twoPass, firstName, lastName, login;
 
-    Context context;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,23 +46,113 @@ public class Registration extends AppCompatActivity {
         onePassword = findViewById(R.id.onePassword);
         twoPassword = findViewById(R.id.twoPassword);
 
-        //context.getApplicationContext();
+        context = Registration.this;
 
-        twoPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        twoPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    onePass = onePassword.getText().toString().trim();
-                    twoPass = twoPassword.getText().toString().trim();
-                    if (onePass.equals(twoPass))
-                    {
-                    }
-                    else
-                    {
-                        onePassword.setText("");
-                        twoPassword.setText("");
-                        //Toast.makeText(context, "Пароли не правильные", Toast.LENGTH_SHORT).show();
-                    }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (timer != null)
+                    timer.cancel();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() >= 1) {
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            onePass = onePassword.getText().toString().trim();
+                            twoPass = twoPassword.getText().toString().trim();
+
+                            if (!onePass.equals(twoPass)) {
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        twoPassword.setTextColor(Color.rgb(255,0,0));
+                                    }
+                                });
+
+                                Looper.prepare();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setMessage("Пароли не совпадают.")
+                                        .setCancelable(false)
+                                        .setNeutralButton("Ок", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                }
+                                        );
+                                AlertDialog alert = builder.create();
+                                alert.setTitle("Ошибка регистрации");
+                                alert.show();
+                                Looper.loop();
+                            }
+                            else
+                            {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        twoPassword.setTextColor(Color.rgb(154,154,154));
+                                    }
+                                });
+                            }
+                        }
+                    }, DELAY);
+
+                }
+            }
+        });
+
+        onePassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (timer != null)
+                    timer.cancel();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() >= 1) {
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            onePass = onePassword.getText().toString().trim();
+                            twoPass = twoPassword.getText().toString().trim();
+
+                            if (!twoPassword.equals(onePass) && (!twoPass.equals(""))) {
+                                Looper.prepare();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setMessage("Пароли не совпадают.")
+                                        .setCancelable(false)
+                                        .setNeutralButton("Ок", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                }
+                                        );
+                                AlertDialog alert = builder.create();
+                                alert.setTitle("Ошибка регистрации");
+                                alert.show();
+                                Looper.loop();
+                            }
+                        }
+                    }, DELAY);
+
                 }
             }
         });
@@ -65,16 +166,28 @@ public class Registration extends AppCompatActivity {
         lastName = tvLastName.getText().toString().trim();
         login = oneLogin.getText().toString().trim();
 
-        if ( onePass.equals("") || twoPass.equals("") || firstName.equals("") || lastName.equals("") || login.equals(""))
-        {
-            //Toast.makeText(context, "Вы ввели не все данные", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        if ((onePass.equals("") || twoPass.equals("") || firstName.equals("") || lastName.equals("") || login.equals(""))  && (!onePass.equals(twoPass))) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Вы ввели не все данные или пароли не совпадают.")
+                    .setCancelable(false)
+                    .setNeutralButton("Ок", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            }
+                    );
+            AlertDialog alert = builder.create();
+            alert.setTitle("Ошибка регистрации");
+            alert.show();
+        } else {
             Service service = new Service();
-            service.register(login,firstName,lastName,onePass);
-            Intent intent = new Intent(Registration.this,MainActivity.class);
+            service.register(login, firstName, lastName, onePass);
+            Toast.makeText(context, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Registration.this, ViewAuthorization.class);
             startActivity(intent);
+            this.finish();
         }
     }
+
 }
