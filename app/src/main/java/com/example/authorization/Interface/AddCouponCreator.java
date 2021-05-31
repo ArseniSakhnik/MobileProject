@@ -147,16 +147,10 @@ public class AddCouponCreator extends AppCompatActivity {
 
     public void addCoupon(View view) throws ParseException {
         if (!text.getText().toString().trim().equals("")) {
-
-
-
             if ((placeX.getText().toString().trim().equals("") && !setPlaceNull.isChecked()) || (placeY.getText().toString().trim().equals("") && !setPlaceNull.isChecked())
-                    || (radius.getText().toString().trim().equals("") && !setRangeNull.isChecked()) || (calendar.getText().toString().trim().equals("null") && !setDateNull.isChecked()))
-            {
+                    || (radius.getText().toString().trim().equals("") && !setRangeNull.isChecked()) || (calendar.getText().toString().trim().equals("null") && !setDateNull.isChecked())) {
                 Toast.makeText(this, "Не все данные были введены", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 if (!setPlaceNull.isChecked()) {
                     targetX = Double.parseDouble(placeX.getText().toString().trim());
                     targetY = Double.parseDouble(placeY.getText().toString().trim());
@@ -177,7 +171,7 @@ public class AddCouponCreator extends AppCompatActivity {
                 description = text.getText().toString().trim();
 
                 CouponCreatorService couponCreatorService = new CouponCreatorService();
-                couponCreatorService.addCouponCreators(token, targetX, targetY, range, date, description, AddCouponCreator.this);
+                couponCreatorService.addCouponCreators(token, targetX, targetY, range, date, description);
 
                 Intent intent = new Intent(AddCouponCreator.this, ViewCouponCreator.class);
                 startActivity(intent);

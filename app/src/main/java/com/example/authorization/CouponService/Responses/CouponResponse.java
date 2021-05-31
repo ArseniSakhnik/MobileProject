@@ -1,4 +1,4 @@
-package com.example.authorization.CouponCreatorService.Responses;
+package com.example.authorization.CouponService.Responses;
 
 import android.os.Build;
 
@@ -9,33 +9,31 @@ import com.google.gson.annotations.SerializedName;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-public class CouponCreatorResponse {
+public class CouponResponse {
+
     @SerializedName("id")
     public int id;
-    @SerializedName("targetX")
-    public Double targetX;
-    @SerializedName("targetY")
-    public Double targetY;
-    @SerializedName("radius")
-    public Double radius;
+    @SerializedName("couponUserUsername")
+    public String couponUserUsername;
+    @SerializedName("couponCreatorId")
+    public int couponCreatorId;
     @SerializedName("isActive")
     public boolean isActive;
+    @SerializedName("description")
+    public String description;
     @SerializedName("endOfCoupon")
     public Date endOfCoupon;
-    @SerializedName("description")
-    private String description = "";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public String toString() {
-        return "CouponCreatorResponse{" +
+        return "Coupon{" +
                 "id=" + id +
-                ", targetX=" + targetX +
-                ", targetY=" + targetY +
-                ", radius=" + radius +
+                ", couponUserUsername='" + couponUserUsername + '\'' +
+                ", couponCreatorId=" + couponCreatorId +
                 ", isActive=" + isActive +
+                ", description='" + getDescription() + '\'' +
                 ", endOfCoupon=" + endOfCoupon +
-                ", description='" + description + '\'' +
                 '}';
     }
 
@@ -45,7 +43,6 @@ public class CouponCreatorResponse {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+       this.description = description;
     }
-
 }

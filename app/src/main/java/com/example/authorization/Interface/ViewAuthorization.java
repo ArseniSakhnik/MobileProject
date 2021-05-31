@@ -21,11 +21,12 @@ import java.util.TimerTask;
 public class ViewAuthorization extends AppCompatActivity {
 
     private final static String FILE_NAME = "content.txt";
+    private final static String FILE_ROLE = "role.txt";
     private String loginCheck, passwordCheck;
     private Service service;
 
     private Timer timer = new Timer();
-    private final long DELAY = 1000; // in ms
+    private final long DELAY = 600; // in ms
 
     private EditText login, password;
 
@@ -97,13 +98,11 @@ public class ViewAuthorization extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     public void check(View view) {
         try {
-            Thread.sleep(250); //Приостанавливает поток на 250 мс
+            Thread.sleep(700); //Приостанавливает поток на 700 мс
         } catch (Exception e) {
         }
 
@@ -113,14 +112,28 @@ public class ViewAuthorization extends AppCompatActivity {
                 fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
                 fos.write(service.getUsername().getBytes());
             } catch (IOException ex) {
-
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             } finally {
                 try {
                     if (fos != null)
                         fos.close();
                 } catch (IOException ex) {
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            fos = null;
+
+            try {
+                fos = openFileOutput(FILE_ROLE, MODE_PRIVATE);
+                fos.write(service.getRole().getBytes());
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            } finally {
+                try {
+                    if (fos != null)
+                        fos.close();
+                } catch (IOException ex) {
                     Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

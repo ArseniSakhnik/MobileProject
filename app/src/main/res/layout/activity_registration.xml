@@ -7,7 +7,6 @@
     tools:context=".Interface.Registration"
     android:background="#292929">
 
-
     <EditText
         android:id="@+id/tvFirstName"
         android:layout_width="200dp"
@@ -17,10 +16,8 @@
         android:textColor="#9a9a9a"
         android:hint="Напишите имя"
         android:paddingLeft="10dp"
-
         android:textSize="18sp"
         android:textStyle="bold"
-
 
         app:layout_constraintBottom_toTopOf="@id/tvLastName"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -37,9 +34,8 @@
         android:textSize="18sp"
         android:hint="Напишите фамилию"
         android:paddingLeft="10dp"
-
-
         android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@id/oneLogin"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -54,9 +50,9 @@
         android:textColor="#9a9a9a"
         android:hint="Придумайте логин"
         android:paddingLeft="10dp"
-
         android:textColorHighlight="#FFFFFF"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@id/onePassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -71,8 +67,8 @@
         android:textColor="#9a9a9a"
         android:hint="Придумайте пароль"
         android:paddingLeft="10dp"
-
         android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@id/twoPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -87,8 +83,8 @@
         android:textColor="#9a9a9a"
         android:hint="Повторите пароль"
         android:paddingLeft="10dp"
-
         android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@id/buttonRegistration"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -106,11 +102,6 @@
         app:layout_constraintTop_toBottomOf="@id/twoPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-
-
-
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

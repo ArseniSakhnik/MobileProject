@@ -38,12 +38,4 @@ public class CouponCreatorAdapter  extends ArrayAdapter<CouponList> {
 
         return view;
     }
-
-    public void setCouponCreators(List<CouponList> couponCreators) {
-        this.couponCreators = couponCreators;
-    }
-
-    public List<CouponList> getCouponCreators() {
-        return couponCreators;
-    }
 }

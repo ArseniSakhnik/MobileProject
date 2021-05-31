@@ -44,7 +44,6 @@ public class ChangeCouponCreator extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     public static final String TAG = "EditActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,17 +185,11 @@ public class ChangeCouponCreator extends AppCompatActivity {
     }
 
     public void changeCoupon(View view) throws ParseException {
-
-
         if (!text.getText().toString().trim().equals("")) {
-
-            if (placeX.getText().toString().trim().equals("") || placeY.getText().toString().trim().equals("") || radius.getText().toString().trim().equals("") ||
-                    calendar.getText().toString().trim().equals("null"))
-            {
+            if ((placeX.getText().toString().trim().equals("") && !setPlaceNull.isChecked()) || (placeY.getText().toString().trim().equals("") && !setPlaceNull.isChecked())
+                    || (radius.getText().toString().trim().equals("") && !setRangeNull.isChecked()) || (calendar.getText().toString().trim().equals("null") && !setDateNull.isChecked())) {
                 Toast.makeText(this, "Не все данные были введены", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 if (!setPlaceNull.isChecked()) {
                     targetX = Double.parseDouble(placeX.getText().toString().trim());
                     targetY = Double.parseDouble(placeY.getText().toString().trim());
@@ -217,7 +210,7 @@ public class ChangeCouponCreator extends AppCompatActivity {
                 description = text.getText().toString().trim();
 
                 CouponCreatorService couponCreatorService = new CouponCreatorService();
-                couponCreatorService.changeCouponCreatorRequest(id, token, targetX, targetY, range, date, description, this);
+                couponCreatorService.changeCouponCreatorRequest(id, token, targetX, targetY, range, date, description);
 
                 Intent intent = new Intent(ChangeCouponCreator.this, ViewCouponCreator.class);
                 startActivity(intent);

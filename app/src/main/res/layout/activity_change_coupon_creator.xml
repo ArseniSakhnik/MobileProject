@@ -105,9 +105,9 @@
         android:background="#1c1c1c"
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
-
         android:textColor="#9a9a9a"
         android:textColorHint="#7d7d7d"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radius" />
 
@@ -121,9 +121,9 @@
         android:background="#1c1c1c"
         android:inputType="numberDecimal|numberSigned"
         android:paddingLeft="10dp"
-
         android:textColor="#9a9a9a"
         android:textColorHint="#7d7d7d"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeY" />
 
@@ -137,9 +137,9 @@
         android:background="#1c1c1c"
         android:inputType="numberDecimal|numberSigned"
         android:paddingLeft="10dp"
-
         android:textColor="#9a9a9a"
         android:textColorHint="#7d7d7d"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeX" />
 
@@ -164,14 +164,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-
-
         android:background="#1c1c1c"
         android:gravity="center"
         android:text="Время"
         android:textColor="#9a9a9a"
         android:textColorHint="#7d7d7d"
         android:textSize="18sp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -181,8 +180,8 @@
         android:layout_height="25dp"
         android:layout_marginEnd="92dp"
         android:layout_marginRight="92dp"
-
         android:layout_marginBottom="40dp"
+
         app:layout_constraintBottom_toTopOf="@+id/setRangeNull"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -193,6 +192,7 @@
         android:layout_marginEnd="92dp"
         android:layout_marginRight="92dp"
         android:layout_marginBottom="116dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -202,8 +202,8 @@
         android:layout_height="25dp"
         android:layout_marginEnd="92dp"
         android:layout_marginRight="92dp"
-
         android:layout_marginBottom="40dp"
+
         app:layout_constraintBottom_toTopOf="@+id/setPlaceNull"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -262,6 +262,5 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

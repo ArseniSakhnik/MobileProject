@@ -36,8 +36,4 @@ public class CouponAdapter extends ArrayAdapter<CouponUserList> {
 
         return view;
     }
-
-    public void setCouponUserList(List<CouponUserList> couponUserList) {
-        this.couponUserList = couponUserList;
-    }
 }

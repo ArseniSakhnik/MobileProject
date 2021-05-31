@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/text_view_border"
-    >
+    android:background="@drawable/text_view_border">
 
     <TextView
         android:id="@+id/description"
@@ -58,6 +57,7 @@
         android:textAllCaps="false"
         android:textColor="#9a9a9a"
         android:textSize="18sp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

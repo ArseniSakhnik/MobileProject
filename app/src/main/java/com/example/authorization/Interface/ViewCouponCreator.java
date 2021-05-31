@@ -23,7 +23,7 @@ import androidx.core.app.ActivityCompat;
 import com.example.authorization.CouponCreationList.CouponList;
 import com.example.authorization.CouponCreatorService.CouponCreatorService;
 import com.example.authorization.R;
-import com.example.authorization.Services.CouponService.CouponService;
+import com.example.authorization.CouponService.CouponService;
 import com.example.authorization.checkGPS.LocListenerInterface;
 import com.example.authorization.checkGPS.MyLocListener;
 
@@ -35,7 +35,9 @@ import java.text.SimpleDateFormat;
 public class ViewCouponCreator extends AppCompatActivity implements LocListenerInterface {
 
     private final static String FILE_NAME = "content.txt";
+    private final static String FILE_ROLE = "role.txt";
     private String token;
+    private String role;
     private double targetX, targetY;
     private int count = 2;
 
@@ -55,23 +57,39 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
 
         this.context = this;
 
-        FileInputStream fin = null;
+        FileInputStream fos = null;
         try {
-            fin = openFileInput(FILE_NAME);
-            byte[] bytes = new byte[fin.available()];
-            fin.read(bytes);
+            fos = openFileInput(FILE_NAME);
+            byte[] bytes = new byte[fos.available()];
+            fos.read(bytes);
             String text = new String(bytes);
             token = text.trim();
         } catch (IOException ex) {
-
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         } finally {
-
             try {
-                if (fin != null)
-                    fin.close();
+                if (fos != null)
+                    fos.close();
             } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
+        fos = null;
+
+        try {
+            fos = openFileInput(FILE_ROLE);
+            byte[] bytes = new byte[fos.available()];
+            fos.read(bytes);
+            String text = new String(bytes);
+            role = text.trim();
+        } catch (IOException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+            } catch (IOException ex) {
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -102,39 +120,66 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
                             public void onClick(DialogInterface dialog, int which) {
                                 if (buttons[which].equals("Добавить себе купон")) {
                                     CouponService couponService = new CouponService();
-                                    //double targetX = 65.5;
-                                    //double targetY = 54.5;
                                     couponService.addCouponToUser(couponsList.getId(), token, targetX, targetY, ViewCouponCreator.this);
                                 }
                                 if (buttons[which].equals("Изменить")) {
-                                    Intent intent = new Intent(ViewCouponCreator.this, ChangeCouponCreator.class);
-                                    intent.putExtra("idCoupon", couponsList.getId());
-                                    intent.putExtra("targetX", couponsList.getTargetX());
-                                    intent.putExtra("targetY", couponsList.getTargetY());
-                                    intent.putExtra("radius", couponsList.getRadius());
+                                    if (role.equals("Counterparty")) {
+                                        Intent intent = new Intent(ViewCouponCreator.this, ChangeCouponCreator.class);
+                                        intent.putExtra("idCoupon", couponsList.getId());
+                                        intent.putExtra("targetX", couponsList.getTargetX());
+                                        intent.putExtra("targetY", couponsList.getTargetY());
+                                        intent.putExtra("radius", couponsList.getRadius());
 
-                                    if (couponsList.getEndOfCoupon() != null)
-                                    {
-                                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                                        intent.putExtra("endOfCoupon", format.format(couponsList.getEndOfCoupon()).toString());
+                                        if (couponsList.getEndOfCoupon() != null) {
+                                            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                                            intent.putExtra("endOfCoupon", format.format(couponsList.getEndOfCoupon()).toString());
+                                        } else {
+                                            intent.putExtra("endOfCoupon", "null");
+                                        }
+
+                                        intent.putExtra("description", couponsList.getDescription());
+                                        intent.putExtra("token", token);
+                                        startActivity(intent);
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                        builder.setMessage("У вас недостаточно прав!")
+                                                .setCancelable(false)
+                                                .setNeutralButton("Ок", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        AlertDialog alert = builder.create();
+                                        alert.setTitle("Ошибка");
+                                        alert.show();
                                     }
-                                    else {
-                                        intent.putExtra("endOfCoupon", "null");
-                                    }
-                                    intent.putExtra("description", couponsList.getDescription());
-                                    intent.putExtra("token", token);
-                                    startActivity(intent);
                                 }
                                 if (buttons[which].equals("Удалить")) {
-                                    count -= 1;
-                                    couponCreatorService.deleteCouponCreators(couponsList.getId(), token, context);
+                                    if (role.equals("Counterparty")) {
+                                        couponCreatorService.deleteCouponCreators(couponsList.getId(), token);
 
-                                    try {
-                                        Thread.sleep(1000); //Приостанавливает поток на 1 секунду
-                                    } catch (Exception e) {
+                                        try {
+                                            Thread.sleep(1000); //Приостанавливает поток на 1 секунду
+                                        } catch (Exception e) {
+                                        }
 
+                                        count -= 1;
+                                        couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                        builder.setMessage("У вас недостаточно прав!")
+                                                .setCancelable(false)
+                                                .setNeutralButton("Ок", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                        AlertDialog alert = builder.create();
+                                        alert.setTitle("Ошибка");
+                                        alert.show();
                                     }
-                                    couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
                                 }
                             }
                         })
@@ -160,13 +205,10 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.equals(""))
-                {
+                if (newText.equals("")) {
                     couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
-                }
-                else
-                {
-                    couponCreatorService.getCouponCreatorsBySearch(count,newText,token,context, couponList);
+                } else {
+                    couponCreatorService.getCouponCreatorsBySearch(count, newText, token, context, couponList);
                 }
                 return false;
             }
@@ -174,16 +216,31 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
     }
 
     public void couponAdd(View view) {
-
         count += 2;
         couponCreatorService.getCouponCreators(1, count, token, this, couponList);
     }
 
     public void addCouponCreator(View view) {
-        Intent intent = new Intent(ViewCouponCreator.this, AddCouponCreator.class);
-        intent.putExtra("token", token);
-        startActivity(intent);
-        this.finish();
+
+        if (role.equals("Counterparty")) {
+            Intent intent = new Intent(ViewCouponCreator.this, AddCouponCreator.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+            this.finish();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("У вас недостаточно прав!")
+                    .setCancelable(false)
+                    .setNeutralButton("Ок", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.setTitle("Ошибка");
+            alert.show();
+        }
     }
 
     public void goToMyCoupons(View view) {

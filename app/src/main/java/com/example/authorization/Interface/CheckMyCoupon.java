@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.authorization.CouponCreationList.CouponUserList;
 import com.example.authorization.R;
-import com.example.authorization.Services.CouponService.CouponService;
+import com.example.authorization.CouponService.CouponService;
 
 public class CheckMyCoupon extends AppCompatActivity {
 
@@ -35,7 +35,6 @@ public class CheckMyCoupon extends AppCompatActivity {
         token = arguments.getString("token");
 
         couponUserList = (ListView) findViewById(R.id.couponList);
-        this.couponUserList = couponUserList;
 
         CouponService couponService = new CouponService();
         this.couponService = couponService;
@@ -59,7 +58,6 @@ public class CheckMyCoupon extends AppCompatActivity {
                                 try {
                                     Thread.sleep(1000); //Приостанавливает поток на 1 секунду
                                 } catch (Exception e) {
-
                                 }
 
                                 couponService.getCouponToUser(token, context, check, couponUserList);

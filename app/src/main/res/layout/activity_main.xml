@@ -14,7 +14,6 @@
         android:backgroundTint="#00bb6d"
         android:onClick="check"
         android:text="@string/Entrance"
-
         android:textColor="#F6F6F6"
         android:textColorHint="#A68989"
 
@@ -42,11 +41,11 @@
         android:layout_height="190dp"
         android:orientation="vertical"
         android:id="@+id/linear"
+
         app:layout_constraintBottom_toTopOf="@id/buttonEntrance"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <EditText
             android:id="@+id/login"
@@ -55,11 +54,11 @@
             android:layout_gravity="center_horizontal"
             android:autofillHints=""
             android:paddingLeft="10dp"
-
             android:background="#1c1c1c"
             android:hint="Введите логин"
             android:textColorHint="#7d7d7d"
             android:textColor="#9a9a9a"
+
             app:layout_constraintBottom_toTopOf="@id/password"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -74,11 +73,8 @@
             android:textColor="#9a9a9a"
             android:hint="Введите пароль"
             android:paddingLeft="10dp"
-
             android:layout_gravity="bottom|center_horizontal"
             android:autofillHints="" />
-
     </FrameLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

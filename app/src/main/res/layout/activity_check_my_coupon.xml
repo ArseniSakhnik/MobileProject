@@ -17,7 +17,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </ListView>
 
     <Button
@@ -27,9 +26,9 @@
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
         android:backgroundTint="#00bb6d"
-
         android:onClick="couponAdd"
         android:text="Дальше"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/couponList" />

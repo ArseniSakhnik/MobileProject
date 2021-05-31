@@ -30,7 +30,7 @@ public class Registration extends AppCompatActivity {
     private EditText twoPassword;
 
     private Timer timer = new Timer();
-    private final long DELAY = 2000; // in ms
+    private final long DELAY = 1000; // in ms
 
     private String onePass, twoPass, firstName, lastName, login;
 
@@ -52,7 +52,6 @@ public class Registration extends AppCompatActivity {
         twoPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -72,7 +71,6 @@ public class Registration extends AppCompatActivity {
                             twoPass = twoPassword.getText().toString().trim();
 
                             if (!onePass.equals(twoPass)) {
-
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -105,7 +103,6 @@ public class Registration extends AppCompatActivity {
                             }
                         }
                     }, DELAY);
-
                 }
             }
         });
@@ -113,7 +110,6 @@ public class Registration extends AppCompatActivity {
         onePassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -155,7 +151,6 @@ public class Registration extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void Registration(View view) {
