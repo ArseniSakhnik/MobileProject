@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Authorization</string>
-    <string name="Entrance">Вход</string>
-    <string name="Registration">Регистрация</string>
-    <string name="output">Вывод текста</string>
-</resources>
