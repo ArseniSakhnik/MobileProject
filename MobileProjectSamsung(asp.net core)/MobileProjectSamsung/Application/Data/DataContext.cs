@@ -45,62 +45,12 @@ namespace MobileProjectSamsung.Application.Data
                 },
                 new
                 {
-                    Username = "сounterparty",
+                    Username = "counterparty",
                     FirstName = "Counterparty",
                     LastName = "Counterparty",
                     Role = Role.Counterparty,
-                    Password = BC.HashPassword("сounterparty")
+                    Password = BC.HashPassword("counterparty")
                 });
-
-            modelBuilder.Entity<CouponCreator>().HasData(
-                new
-                {
-                    Id = 1,
-                    UserCreatorUsername = "counterparty",
-                    Description = "Скидка 5% на все в суши-баре \"SUSHI\""
-                },
-                new
-                {
-                    Id = 2,
-                    UserCreatorUsername = "counterparty",
-                    Description = "Скидка 10% на шаверму в \"Мангал-хаус\"",
-                    EndOfCoupon = DateTime.UtcNow.AddDays(7),
-                },
-                new
-                {
-                    Id = 3,
-                    UserCreatorUsername = "counterparty",
-                    Description = "Скидка 15% на шашлы в \"Шашлычной\"",
-                    TargetX = 26.6,
-                    TargetY = 150.5,
-                    Radius = 180,
-                    EndOfCoupon = DateTime.UtcNow.AddDays(5)
-                }
-                );
-
-            //modelBuilder.Entity<Coupon>().HasData(
-            //    new 
-            //    {
-            //        Id = 1, 
-            //        CouponUserUsername = "user",
-            //        CouponCreatorId = 1,
-            //        WasActivated = false
-            //    },
-            //    new
-            //    {
-            //        Id = 2, 
-            //        CouponUserUsername = "user",
-            //        CouponCreatorId = 2,
-            //        WasActivated = false
-            //    }
-            //    new
-            //    {
-            //        Id = 3,
-            //        CouponUserUsername = "user",
-            //        CouponCreatorId = 3,
-            //        WasActivated = false,
-            //    }
-            //    );
 
 
 
