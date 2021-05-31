@@ -49,11 +49,27 @@ namespace MobileProjectSamsung.Application.Data
                     FirstName = "Counterparty",
                     LastName = "Counterparty",
                     Role = Role.Counterparty,
+<<<<<<< HEAD
                     Password = BC.HashPassword("counterparty")
                 });
 
 
 
+=======
+                    Password = BC.HashPassword("сounterparty")
+                },
+                new
+                {
+                    Username = "test",
+                    FirstName = "test",
+                    LastName = "test",
+                    Role = Role.Counterparty,
+                    Password = BC.HashPassword("test")
+                }
+                );
+
+            
+>>>>>>> e331a2c08398c4636754727f90ea31f810e569a8
         }
     }
 }
