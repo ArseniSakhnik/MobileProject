@@ -1,4 +1,4 @@
-package com.example.authorization.CouponService;
+package com.example.authorization.Services;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,12 +8,11 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.authorization.CouponCreationList.CouponAdapter;
 import com.example.authorization.CouponCreationList.CouponUserList;
-import com.example.authorization.CouponService.Responses.CouponResponse;
-import com.example.authorization.CouponService.Requests.CouponRequest;
+import com.example.authorization.Services.Requests.CouponRequest;
+import com.example.authorization.Services.Responses.CouponResponse;
 import com.example.authorization.Error.Error;
 import com.example.authorization.R;
-import com.example.authorization.Services.Service;
-import com.example.authorization.CouponService.CouponServiceApi.CouponApi;
+import com.example.authorization.Services.ServiceApi.CouponApi;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

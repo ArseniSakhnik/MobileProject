@@ -1,4 +1,4 @@
-package com.example.authorization.CouponCreatorService;
+package com.example.authorization.Services;
 
 import android.content.Context;
 import android.os.Build;
@@ -8,11 +8,10 @@ import androidx.annotation.RequiresApi;
 
 import com.example.authorization.CouponCreationList.CouponCreatorAdapter;
 import com.example.authorization.CouponCreationList.CouponList;
-import com.example.authorization.CouponCreatorService.CouponCreatorServiceApi.CouponCreatorApi;
-import com.example.authorization.CouponCreatorService.Request.CouponCreatorRequest;
-import com.example.authorization.CouponCreatorService.Responses.CouponCreatorResponse;
+import com.example.authorization.Services.Requests.CouponCreatorRequest;
+import com.example.authorization.Services.Responses.CouponCreatorResponse;
 import com.example.authorization.R;
-import com.example.authorization.Services.Service;
+import com.example.authorization.Services.ServiceApi.CouponCreatorApi;
 
 import java.util.ArrayList;
 import java.util.Date;

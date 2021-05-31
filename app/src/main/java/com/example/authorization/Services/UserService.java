@@ -1,24 +1,17 @@
 package com.example.authorization.Services;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.authorization.Services.Helpers.UnsafeOkHttpClient;
 import com.example.authorization.Services.Requests.AuthenticateRequest;
 import com.example.authorization.Services.Requests.RegisterRequest;
 import com.example.authorization.Services.Responses.AuthenticateResponse;
 import com.example.authorization.Services.Responses.RegisterResponse;
 import com.example.authorization.Services.ServiceApi.UserApi;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Service extends AppCompatActivity {
+public class UserService extends Service {
+    private UserApi service;
     public String username;
     public String role;
     public int check;
@@ -47,36 +40,13 @@ public class Service extends AppCompatActivity {
         this.role = role;
     }
 
-    public Retrofit retrofit;
-    public UserApi server;
-
-    public Service() {
-        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5000/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        server = retrofit.create(UserApi.class);
-        this.retrofit = retrofit;
+    public UserService()
+    {
+        super();
+        this.service = retrofit.create(UserApi.class);
     }
 
     public void authenticate(String username, String password) {
-
-        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        server = retrofit.create(UserApi.class);
-        this.retrofit = retrofit;
 
         Call<AuthenticateResponse> call = this.server.authentication(new AuthenticateRequest(username, password));
 
@@ -102,16 +72,9 @@ public class Service extends AppCompatActivity {
     }
 
     public void register(String username, String firstName, String lastName, String password) {
-        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        server = retrofit.create(UserApi.class);
-        this.retrofit = retrofit;
         Call<RegisterResponse> call = this.server.register(new RegisterRequest(username, firstName, lastName, password));
+
         call.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {

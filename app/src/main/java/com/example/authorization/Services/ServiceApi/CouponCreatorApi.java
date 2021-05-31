@@ -1,7 +1,7 @@
-package com.example.authorization.CouponCreatorService.CouponCreatorServiceApi;
+package com.example.authorization.Services.ServiceApi;
 
-import com.example.authorization.CouponCreatorService.Request.CouponCreatorRequest;
-import com.example.authorization.CouponCreatorService.Responses.CouponCreatorResponse;
+import com.example.authorization.Services.Requests.CouponCreatorRequest;
+import com.example.authorization.Services.Responses.CouponCreatorResponse;
 
 import java.util.List;
 

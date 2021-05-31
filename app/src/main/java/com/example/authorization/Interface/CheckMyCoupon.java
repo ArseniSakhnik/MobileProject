@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.authorization.CouponCreationList.CouponUserList;
 import com.example.authorization.R;
-import com.example.authorization.CouponService.CouponService;
+import com.example.authorization.Services.CouponService;
 
 public class CheckMyCoupon extends AppCompatActivity {
 
@@ -41,6 +41,10 @@ public class CheckMyCoupon extends AppCompatActivity {
 
         couponService.getCouponToUser(token,this, check, couponUserList);
 
+        menu(couponService);
+    }
+
+    private void menu(CouponService couponService) {
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

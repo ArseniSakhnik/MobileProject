@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.authorization.CouponCreatorService.CouponCreatorService;
+import com.example.authorization.Services.CouponCreatorService;
 import com.example.authorization.R;
 
 import java.text.ParseException;
@@ -36,7 +36,6 @@ public class AddCouponCreator extends AppCompatActivity {
     private EditText text;
 
     private CheckBox setPlaceNull;
-    private CheckBox setRangeNull;
     private CheckBox setDateNull;
 
     private TextView calendar;
@@ -54,7 +53,6 @@ public class AddCouponCreator extends AppCompatActivity {
         text = findViewById(R.id.description);
 
         setPlaceNull = findViewById(R.id.setPlaceNull);
-        setRangeNull = findViewById(R.id.setRangeNull);
         setDateNull = findViewById(R.id.setDateNull);
 
         calendar = findViewById(R.id.time);
@@ -62,6 +60,12 @@ public class AddCouponCreator extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
         token = arguments.getString("token");
 
+        setDateTime();
+
+        checkBoxEvents();
+    }
+
+    private void setDateTime() {
         calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +91,6 @@ public class AddCouponCreator extends AppCompatActivity {
                 calendar.setText(date);
             }
         };
-
-        checkBoxEvents();
     }
 
     private void checkBoxEvents() {
@@ -102,6 +104,9 @@ public class AddCouponCreator extends AppCompatActivity {
                     placeY.setTextColor(Color.rgb(28, 28, 28));
                     targetX = null;
                     targetY = null;
+                    radius.setRawInputType(0x00000000);
+                    radius.setTextColor(Color.rgb(28, 28, 28));
+                    range = null;
                 } else {
                     placeX.setInputType(InputType.TYPE_CLASS_NUMBER);
                     placeY.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -109,18 +114,6 @@ public class AddCouponCreator extends AppCompatActivity {
                     placeY.setTextColor(Color.rgb(154, 154, 154));
                     targetX = Double.parseDouble(placeX.getText().toString().trim());
                     targetY = Double.parseDouble(placeY.getText().toString().trim());
-                }
-            }
-        });
-
-        setRangeNull.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    radius.setRawInputType(0x00000000);
-                    radius.setTextColor(Color.rgb(28, 28, 28));
-                    range = null;
-                } else {
                     radius.setInputType(InputType.TYPE_CLASS_NUMBER);
                     radius.setTextColor(Color.rgb(154, 154, 154));
                     range = Double.parseDouble(radius.getText().toString().trim());
@@ -148,15 +141,12 @@ public class AddCouponCreator extends AppCompatActivity {
     public void addCoupon(View view) throws ParseException {
         if (!text.getText().toString().trim().equals("")) {
             if ((placeX.getText().toString().trim().equals("") && !setPlaceNull.isChecked()) || (placeY.getText().toString().trim().equals("") && !setPlaceNull.isChecked())
-                    || (radius.getText().toString().trim().equals("") && !setRangeNull.isChecked()) || (calendar.getText().toString().trim().equals("null") && !setDateNull.isChecked())) {
+                    || (radius.getText().toString().trim().equals("") && !setPlaceNull.isChecked()) || (calendar.getText().toString().trim().equals("null") && !setDateNull.isChecked())) {
                 Toast.makeText(this, "Не все данные были введены", Toast.LENGTH_SHORT).show();
             } else {
                 if (!setPlaceNull.isChecked()) {
                     targetX = Double.parseDouble(placeX.getText().toString().trim());
                     targetY = Double.parseDouble(placeY.getText().toString().trim());
-                }
-
-                if (!setRangeNull.isChecked()) {
                     range = Double.parseDouble(radius.getText().toString().trim());
                 }
 

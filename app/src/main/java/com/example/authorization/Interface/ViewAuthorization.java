@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.authorization.R;
-import com.example.authorization.Services.Service;
+import com.example.authorization.Services.UserService;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class ViewAuthorization extends AppCompatActivity {
     private final static String FILE_NAME = "content.txt";
     private final static String FILE_ROLE = "role.txt";
     private String loginCheck, passwordCheck;
-    private Service service;
+    private UserService userService;
 
     private Timer timer = new Timer();
     private final long DELAY = 600; // in ms
@@ -38,9 +38,13 @@ public class ViewAuthorization extends AppCompatActivity {
         login = findViewById(R.id.login);
         password = findViewById(R.id.password);
 
-        Service service = new Service();
-        this.service = service;
+        UserService userService = new UserService();
+        this.userService = userService;
 
+        checkLoginAndPassword(userService);
+    }
+
+    private void checkLoginAndPassword(UserService userService) {
         password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -62,7 +66,7 @@ public class ViewAuthorization extends AppCompatActivity {
                             if (!login.getText().toString().trim().equals("")) {
                                 passwordCheck = password.getText().toString().trim();
                                 loginCheck = login.getText().toString().trim();
-                                service.authenticate(loginCheck, passwordCheck);
+                                userService.authenticate(loginCheck, passwordCheck);
                             }
                         }
                     }, DELAY);
@@ -91,7 +95,7 @@ public class ViewAuthorization extends AppCompatActivity {
                             if (!password.getText().toString().trim().equals("")) {
                                 passwordCheck = password.getText().toString().trim();
                                 loginCheck = login.getText().toString().trim();
-                                service.authenticate(loginCheck, passwordCheck);
+                                userService.authenticate(loginCheck, passwordCheck);
                             }
                         }
                     }, DELAY);
@@ -106,11 +110,11 @@ public class ViewAuthorization extends AppCompatActivity {
         } catch (Exception e) {
         }
 
-        if (service.getCheck() == 1) {
+        if (userService.getCheck() == 1) {
             FileOutputStream fos = null;
             try {
                 fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-                fos.write(service.getUsername().getBytes());
+                fos.write(userService.getUsername().getBytes());
             } catch (IOException ex) {
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             } finally {
@@ -126,7 +130,7 @@ public class ViewAuthorization extends AppCompatActivity {
 
             try {
                 fos = openFileOutput(FILE_ROLE, MODE_PRIVATE);
-                fos.write(service.getRole().getBytes());
+                fos.write(userService.getRole().getBytes());
             } catch (IOException ex) {
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             } finally {
@@ -141,7 +145,7 @@ public class ViewAuthorization extends AppCompatActivity {
             Intent intent = new Intent(ViewAuthorization.this, ViewCouponCreator.class);
             startActivity(intent);
             this.finish();
-            service.setCheck(0);
+            userService.setCheck(0);
         } else {
             Toast.makeText(this, "Вы неправильно ввели логин или пароль", Toast.LENGTH_SHORT).show();
         }

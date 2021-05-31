@@ -1,4 +1,4 @@
-package com.example.authorization.CouponCreatorService.Request;
+package com.example.authorization.Services.Requests;
 
 import com.google.gson.annotations.SerializedName;
 

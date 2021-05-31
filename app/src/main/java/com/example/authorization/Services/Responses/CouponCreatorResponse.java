@@ -1,4 +1,4 @@
-package com.example.authorization.CouponCreatorService.Responses;
+package com.example.authorization.Services.Responses;
 
 import android.os.Build;
 

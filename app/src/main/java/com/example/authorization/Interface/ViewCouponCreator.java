@@ -21,9 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.authorization.CouponCreationList.CouponList;
-import com.example.authorization.CouponCreatorService.CouponCreatorService;
+import com.example.authorization.Services.CouponCreatorService;
 import com.example.authorization.R;
-import com.example.authorization.CouponService.CouponService;
+import com.example.authorization.Services.CouponService;
 import com.example.authorization.checkGPS.LocListenerInterface;
 import com.example.authorization.checkGPS.MyLocListener;
 
@@ -107,6 +107,32 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
 
         couponCreatorService.getCouponCreators(1, count, token, this, couponList);
 
+        menu(couponCreatorService);
+
+
+        searchView(couponCreatorService);
+    }
+
+    private void searchView(CouponCreatorService couponCreatorService) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.equals("")) {
+                    couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
+                } else {
+                    couponCreatorService.getCouponCreatorsBySearch(count, newText, token, context, couponList);
+                }
+                return false;
+            }
+        });
+    }
+
+    private void menu(CouponCreatorService couponCreatorService) {
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -195,24 +221,6 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
             }
         };
         couponList.setOnItemClickListener(itemListener);
-
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.equals("")) {
-                    couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
-                } else {
-                    couponCreatorService.getCouponCreatorsBySearch(count, newText, token, context, couponList);
-                }
-                return false;
-            }
-        });
     }
 
     public void couponAdd(View view) {
