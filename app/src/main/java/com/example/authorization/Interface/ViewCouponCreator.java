@@ -28,6 +28,7 @@ import com.example.authorization.checkGPS.LocListenerInterface;
 import com.example.authorization.checkGPS.MyLocListener;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -281,5 +282,25 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
         if (requestCode == 100 && grantResults[0] == RESULT_OK) {
             checkPermissions();
         }
+    }
+
+    public void goToAuthorisation(View view) {
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos.write("".getBytes());
+        } catch (IOException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        Intent intent = new Intent(ViewCouponCreator.this, ViewAuthorization.class);
+        startActivity(intent);
     }
 }

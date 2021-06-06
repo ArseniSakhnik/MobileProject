@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.authorization.R;
 import com.example.authorization.Services.UserService;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Timer;
@@ -22,7 +23,7 @@ public class ViewAuthorization extends AppCompatActivity {
 
     private final static String FILE_NAME = "content.txt";
     private final static String FILE_ROLE = "role.txt";
-    private String loginCheck, passwordCheck;
+    private String loginCheck, passwordCheck, token;
     private UserService userService;
 
     private Timer timer = new Timer();
@@ -34,6 +35,31 @@ public class ViewAuthorization extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FileInputStream fos = null;
+        try {
+            fos = openFileInput(FILE_NAME);
+            byte[] bytes = new byte[fos.available()];
+            fos.read(bytes);
+            String text = new String(bytes);
+            token = text.trim();
+        } catch (IOException ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+            } catch (IOException ex) {
+                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (!token.equals(""))
+        {
+            Intent intent = new Intent(ViewAuthorization.this, ViewCouponCreator.class);
+            startActivity(intent);
+            this.finish();
+        }
 
         login = findViewById(R.id.login);
         password = findViewById(R.id.password);
