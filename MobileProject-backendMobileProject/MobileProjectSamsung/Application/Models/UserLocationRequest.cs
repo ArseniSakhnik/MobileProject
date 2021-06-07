@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MobileProjectSamsung.Application.Models
 {
-    public class AddCouponToUserRequest
+    public class UserLocationRequest
     {
         public double? TargetX { get; set; } = null;
         public double? TargetY { get; set; } = null;

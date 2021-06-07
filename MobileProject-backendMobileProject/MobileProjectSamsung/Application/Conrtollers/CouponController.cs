@@ -39,7 +39,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
         }
 
         [HttpPost("addCouponToUser/{couponId}")]
-        public async Task<IActionResult> AddCouponToUser(int couponId, [FromBody] AddCouponToUserRequest model)
+        public async Task<IActionResult> AddCouponToUser(int couponId, [FromBody] UserLocationRequest model)
         {
             try
             {

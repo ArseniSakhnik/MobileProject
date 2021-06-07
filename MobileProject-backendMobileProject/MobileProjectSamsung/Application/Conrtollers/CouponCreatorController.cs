@@ -26,11 +26,11 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpGet("getCouponListByCount/{startId}/{count}")]
         [Authorize]
-        public async Task<IActionResult> GetCouponCreatorsByFirstIndexAndCount(int startId, int count) 
+        public async Task<IActionResult> GetCouponCreatorsByFirstIndexAndCount(int startId, int count, [FromBody] UserLocationRequest model) 
         {
             try
             {
-                var coupons = await _couponCreatorService.GetCouponCreatorsByFirstIndexAndCountAsync(startId, count);
+                var coupons = await _couponCreatorService.GetCouponCreatorsByFirstIndexAndCountAsync(startId, count, model.TargetX, model.TargetY);
                 return Ok(coupons);
             }
             catch (LogicException ex)
@@ -41,11 +41,11 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpGet("getCouponCreatorListByIdAndSearch/{count}")]
         [Authorize]
-        public async Task<IActionResult> GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search) 
+        public async Task<IActionResult> GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search, [FromBody] UserLocationRequest model) 
         {
             try
             {
-                var coupons = await _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCountAsync(count, search);
+                var coupons = await _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCountAsync(count, search, model.TargetX, model.TargetY);
                 return Ok(coupons);
             }
             catch (LogicException ex)

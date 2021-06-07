@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using MobileProjectSamsung.Application.Services.UserService;
 using MobileProjectSamsung.Application.Exceptions;
 
 namespace MobileProjectSamsung.Application.Services.CouponCreatorService
@@ -41,10 +40,10 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
         {
             if (withCoupons)
             {
-                 return await _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator)
-                    .Include(c => c.Coupons)
-                    .Include(c => c.UserCreator)
-                    .SingleOrDefaultAsync();
+                return await _dataContext.CouponCreators.Where(c => c.Id == id && c.UserCreator.Username == userCreator)
+                   .Include(c => c.Coupons)
+                   .Include(c => c.UserCreator)
+                   .SingleOrDefaultAsync();
             }
             else
             {
@@ -54,9 +53,28 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
         }
 
-        public async Task<List<CouponCreator>> GetCouponCreatorsByFirstIndexAndCountAsync(int startId, int count)
+        public async Task<List<CouponCreator>> GetCouponCreatorsByFirstIndexAndCountAsync(int startId, int count, double? xPosition, double? yPosition)
         {
-            var coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId).Take(count).ToListAsync();
+            List<CouponCreator> coupons;
+            if (xPosition == null && yPosition == null)
+            {
+                coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId).Take(count).ToListAsync();
+            }
+            else if (xPosition == null || yPosition == null)
+            {
+                throw new LogicException("Некорректный ввод геолокации");
+            }
+            else
+            {
+                coupons = await _dataContext.CouponCreators
+                    .Where(c =>
+                    c.Id >= startId
+                    && c.TargetX != null
+                    && c.TargetY != null
+                    && c.Radius != null
+                    && CouponService.CouponService.CheckLocationConditionsOfUser(xPosition, yPosition, c.TargetX, c.TargetY, c.Radius)).ToListAsync();
+            }
+
             if (coupons.Count == 0)
             {
                 throw new LogicException("Не удалось получить купоны");
@@ -64,9 +82,28 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             return coupons;
         }
 
-        public async Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName)
+        public async Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName, double? xPosition, double? yPosition)
         {
-            var coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Take(count).ToListAsync();
+            List<CouponCreator> coupons;
+
+            if (xPosition != null && yPosition != null)
+            {
+                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Take(count).ToListAsync();
+            }
+            else if (xPosition == null || yPosition == null)
+            {
+                throw new LogicException("Некорректный ввод геолокации");
+            }
+            else
+            {
+                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())
+                && c.TargetX != null
+                && c.TargetY != null
+                && c.Radius != null
+                && CouponService.CouponService.CheckLocationConditionsOfUser(xPosition, yPosition, c.TargetX, c.TargetY, c.Radius)
+                ).ToListAsync();
+            }
+
 
             if (coupons.Count == 0)
             {
@@ -140,7 +177,7 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
 
         public bool CheckLocationProperties(double? targetX, double? targetY, double? radius)
         {
-            if (targetX == null && targetY == null && radius == null )
+            if (targetX == null && targetY == null && radius == null)
             {
                 return true;
             }
