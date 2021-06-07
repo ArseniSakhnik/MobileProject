@@ -58,7 +58,10 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             List<CouponCreator> coupons;
             if (xPosition == null && yPosition == null)
             {
-                coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId).Take(count).ToListAsync();
+                coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId 
+                && c.TargetX == null 
+                && c.TargetY == null 
+                && c.Radius == null).Take(count).ToListAsync();
             }
             else if (xPosition == null || yPosition == null)
             {
@@ -66,13 +69,20 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
             else
             {
-                coupons = await _dataContext.CouponCreators
-                    .Where(c =>
-                    c.Id >= startId
-                    && c.TargetX != null
-                    && c.TargetY != null
-                    && c.Radius != null
-                    && CouponService.CouponService.CheckLocationConditionsOfUser(xPosition, yPosition, c.TargetX, c.TargetY, c.Radius)).ToListAsync();
+
+                coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId).Where(c => c.TargetX != null
+                && c.TargetY != null
+                && c.Radius != null).ToListAsync();
+
+                coupons = coupons.Where(c => CheckLocationConditionsOfUser(xPosition, yPosition, c.TargetX, c.TargetY, c.Radius)).Take(count).ToList();
+
+                if (coupons.Count < count)
+                {
+                    var couponsWithNull = await _dataContext.CouponCreators.Where(c => c.Id >= startId
+                    && c.TargetX == null && c.TargetY == null && c.Radius == null).Take(count - coupons.Count).ToListAsync();
+                    coupons.AddRange(couponsWithNull);
+                }
+
             }
 
             if (coupons.Count == 0)
@@ -86,9 +96,14 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
         {
             List<CouponCreator> coupons;
 
-            if (xPosition != null && yPosition != null)
+            if (xPosition == null && yPosition == null)
             {
-                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Take(count).ToListAsync();
+                coupons = await _dataContext.CouponCreators.Where(c => 
+                c.Description.Contains(searchName.Trim())
+                && c.TargetX == null
+                && c.TargetY == null
+                && c.Radius == null
+                ).Take(count).ToListAsync();
             }
             else if (xPosition == null || yPosition == null)
             {
@@ -96,12 +111,19 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
             else
             {
-                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())
-                && c.TargetX != null
+                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Where(c => c.TargetX != null
                 && c.TargetY != null
-                && c.Radius != null
-                && CouponService.CouponService.CheckLocationConditionsOfUser(xPosition, yPosition, c.TargetX, c.TargetY, c.Radius)
-                ).ToListAsync();
+                && c.Radius != null).ToListAsync();
+
+                coupons = coupons.Where(c => CheckLocationConditionsOfUser(xPosition, yPosition, c.TargetX, c.TargetY, c.Radius)).Take(count).ToList();
+
+                if (coupons.Count < count)
+                {
+                    var couponsWithNull = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())
+                    && c.TargetX == null && c.TargetY == null && c.Radius == null).Take(count - coupons.Count).ToListAsync();
+                    coupons.AddRange(couponsWithNull);
+                }
+
             }
 
 
@@ -189,6 +211,11 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             {
                 return false;
             }
+        }
+
+        private bool CheckLocationConditionsOfUser(double? userX, double? userY, double? targetX, double? targetY, double? targetRadius)
+        {
+            return Math.Pow(((double)userX - (double)targetX), 2) + Math.Pow(((double)userY - (double)targetY), 2) <= Math.Pow((double)targetRadius, 2);
         }
     }
 }

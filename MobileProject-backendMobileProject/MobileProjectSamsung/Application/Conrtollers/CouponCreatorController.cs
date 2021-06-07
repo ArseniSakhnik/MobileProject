@@ -24,7 +24,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
             _couponCreatorService = couponCreatorService;
         }
 
-        [HttpGet("getCouponListByCount/{startId}/{count}")]
+        [HttpPost("getCouponListByCount/{startId}/{count}")]
         [Authorize]
         public async Task<IActionResult> GetCouponCreatorsByFirstIndexAndCount(int startId, int count, [FromBody] UserLocationRequest model) 
         {
@@ -39,7 +39,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
             }
         }
 
-        [HttpGet("getCouponCreatorListByIdAndSearch/{count}")]
+        [HttpPost("getCouponCreatorListByIdAndSearch/{count}")]
         [Authorize]
         public async Task<IActionResult> GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search, [FromBody] UserLocationRequest model) 
         {
