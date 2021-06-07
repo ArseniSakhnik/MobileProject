@@ -9,6 +9,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.authorization.CouponCreationList.CouponList;
-import com.example.authorization.Services.CouponCreatorService;
 import com.example.authorization.R;
+import com.example.authorization.Services.CouponCreatorService;
 import com.example.authorization.Services.CouponService;
 import com.example.authorization.checkGPS.LocListenerInterface;
 import com.example.authorization.checkGPS.MyLocListener;
@@ -40,7 +42,7 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
     private String token;
     private String role;
     private double targetX, targetY;
-    private int count = 2;
+    private int count = 10;
 
     ListView couponList;
     CouponCreatorService couponCreatorService;
@@ -106,12 +108,50 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
         CouponCreatorService couponCreatorService = new CouponCreatorService();
         this.couponCreatorService = couponCreatorService;
 
-        couponCreatorService.getCouponCreators(1, count, token, this, couponList);
-
         menu(couponCreatorService);
 
 
         searchView(couponCreatorService);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_exit,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.action_exit :
+                FileOutputStream fos = null;
+                try {
+                    fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+                    fos.write("".getBytes());
+                } catch (IOException ex) {
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                } finally {
+                    try {
+                        if (fos != null)
+                            fos.close();
+                    } catch (IOException ex) {
+                        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                Intent intent = new Intent(ViewCouponCreator.this, ViewAuthorization.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_my_coupon:
+                intent = new Intent(ViewCouponCreator.this, CheckMyCoupon.class);
+                intent.putExtra("token", token);
+                startActivity(intent);
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void searchView(CouponCreatorService couponCreatorService) {
@@ -124,9 +164,9 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.equals("")) {
-                    couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
+                    couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList, targetX, targetY);
                 } else {
-                    couponCreatorService.getCouponCreatorsBySearch(count, newText, token, context, couponList);
+                    couponCreatorService.getCouponCreatorsBySearch(count, newText, token, context, couponList, targetX, targetY);
                 }
                 return false;
             }
@@ -192,7 +232,7 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
                                         }
 
                                         count -= 1;
-                                        couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList);
+                                        couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList, targetX, targetY);
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                         builder.setMessage("У вас недостаточно прав!")
@@ -225,8 +265,8 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
     }
 
     public void couponAdd(View view) {
-        count += 2;
-        couponCreatorService.getCouponCreators(1, count, token, this, couponList);
+        count += 10;
+        couponCreatorService.getCouponCreators(1, count, token, this, couponList, targetX, targetY);
     }
 
     public void addCouponCreator(View view) {
@@ -252,17 +292,11 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
         }
     }
 
-    public void goToMyCoupons(View view) {
-        Intent intent = new Intent(ViewCouponCreator.this, CheckMyCoupon.class);
-        intent.putExtra("token", token);
-        startActivity(intent);
-        this.finish();
-    }
-
     @Override
     public void onLocationChanged(Location loc) {
         targetX = loc.getLatitude();
         targetY = loc.getAltitude();
+        couponCreatorService.getCouponCreators(1, count, token, this, couponList, targetX, targetY);
     }
 
     private void checkPermissions() {
@@ -271,8 +305,8 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     100);
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 1, myLocListener);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2, 1, myLocListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1000, myLocListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10, 1000, myLocListener);
         }
     }
 
@@ -282,25 +316,5 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
         if (requestCode == 100 && grantResults[0] == RESULT_OK) {
             checkPermissions();
         }
-    }
-
-    public void goToAuthorisation(View view) {
-        FileOutputStream fos = null;
-        try {
-            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-            fos.write("".getBytes());
-        } catch (IOException ex) {
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            try {
-                if (fos != null)
-                    fos.close();
-            } catch (IOException ex) {
-                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        Intent intent = new Intent(ViewCouponCreator.this, ViewAuthorization.class);
-        startActivity(intent);
     }
 }

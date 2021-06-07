@@ -64,12 +64,12 @@ public class ChangeCouponCreator extends AppCompatActivity {
                 if (isChecked) {
                     placeX.setRawInputType(0x00000000);
                     placeY.setRawInputType(0x00000000);
-                    placeX.setTextColor(Color.rgb(28, 28, 28));
-                    placeY.setTextColor(Color.rgb(28, 28, 28));
+                    placeX.setTextColor(Color.rgb(48, 48, 48));
+                    placeY.setTextColor(Color.rgb(48, 48, 48));
                     targetX = null;
                     targetY = null;
                     radius.setRawInputType(0x00000000);
-                    radius.setTextColor(Color.rgb(28, 28, 28));
+                    radius.setTextColor(Color.rgb(48, 48, 48));
                     range = null;
                 } else {
                     placeX.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -89,7 +89,7 @@ public class ChangeCouponCreator extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    calendar.setTextColor(Color.rgb(28, 28, 28));
+                    calendar.setTextColor(Color.rgb(48, 48, 48));
                 } else {
                     calendar.setTextColor(Color.rgb(154, 154, 154));
                 }
@@ -154,18 +154,18 @@ public class ChangeCouponCreator extends AppCompatActivity {
             setPlaceNull.setChecked(true);
             placeX.setRawInputType(0x00000000);
             placeY.setRawInputType(0x00000000);
-            placeX.setTextColor(Color.rgb(28, 28, 28));
-            placeY.setTextColor(Color.rgb(28, 28, 28));
+            placeX.setTextColor(Color.rgb(48, 48, 48));
+            placeY.setTextColor(Color.rgb(48, 48, 48));
             targetX = null;
             targetY = null;
             radius.setRawInputType(0x00000000);
-            radius.setTextColor(Color.rgb(28, 28, 28));
+            radius.setTextColor(Color.rgb(48, 48, 48));
             range = null;
         }
 
         if (calendar.getText().toString().trim().equals("null")) {
             setDateNull.setChecked(true);
-            calendar.setTextColor(Color.rgb(28, 28, 28));
+            calendar.setTextColor(Color.rgb(48, 48, 48));
         }
     }
 

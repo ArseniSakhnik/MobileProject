@@ -100,12 +100,12 @@ public class AddCouponCreator extends AppCompatActivity {
                 if (isChecked) {
                     placeX.setRawInputType(0x00000000);
                     placeY.setRawInputType(0x00000000);
-                    placeX.setTextColor(Color.rgb(28, 28, 28));
-                    placeY.setTextColor(Color.rgb(28, 28, 28));
+                    placeX.setTextColor(Color.rgb(41, 41, 41));
+                    placeY.setTextColor(Color.rgb(41, 41, 41));
                     targetX = null;
                     targetY = null;
                     radius.setRawInputType(0x00000000);
-                    radius.setTextColor(Color.rgb(28, 28, 28));
+                    radius.setTextColor(Color.rgb(41, 41, 41));
                     range = null;
                 } else {
                     placeX.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -125,7 +125,7 @@ public class AddCouponCreator extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    calendar.setTextColor(Color.rgb(28, 28, 28));
+                    calendar.setTextColor(Color.rgb(41, 41, 41));
                 } else {
                     calendar.setTextColor(Color.rgb(154, 154, 154));
                 }

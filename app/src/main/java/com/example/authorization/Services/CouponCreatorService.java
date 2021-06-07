@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.example.authorization.CouponCreationList.CouponCreatorAdapter;
 import com.example.authorization.CouponCreationList.CouponList;
 import com.example.authorization.Services.Requests.CouponCreatorRequest;
+import com.example.authorization.Services.Requests.CouponRequest;
 import com.example.authorization.Services.Responses.CouponCreatorResponse;
 import com.example.authorization.R;
 import com.example.authorization.Services.ServiceApi.CouponCreatorApi;
@@ -29,9 +30,9 @@ public class CouponCreatorService extends Service {
         this.service = retrofit.create(CouponCreatorApi.class);
     }
 
-    public void getCouponCreators(int startId, int count, String token, Context context, ListView couponList) {
+    public void getCouponCreators(int startId, int count, String token, Context context, ListView couponList, double targetX, double targetY) {
         String authHeader = "Bearer " + token;
-        Call<List<CouponCreatorResponse>> call = service.getCouponCreators(startId, count, authHeader);
+        Call<List<CouponCreatorResponse>> call = service.getCouponCreators(startId, count, new CouponRequest(targetX, targetY), authHeader);
 
         call.enqueue(new Callback<List<CouponCreatorResponse>>() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -126,10 +127,10 @@ public class CouponCreatorService extends Service {
         });
     }
 
-    public void getCouponCreatorsBySearch(int count, String search, String token, Context context, ListView couponList) {
+    public void getCouponCreatorsBySearch(int count, String search, String token, Context context, ListView couponList, double targetX, double targetY) {
         String authHeader = "Bearer " + token;
 
-        Call<List<CouponCreatorResponse>> call = service.getCouponCreatorsBySearch(count, search, authHeader);
+        Call<List<CouponCreatorResponse>> call = service.getCouponCreatorsBySearch(count, search, new CouponRequest(targetX, targetY), authHeader);
 
         call.enqueue(new Callback<List<CouponCreatorResponse>>() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)

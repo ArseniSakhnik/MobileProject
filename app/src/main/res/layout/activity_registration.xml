@@ -7,91 +7,129 @@
     tools:context=".Interface.Registration"
     android:background="#292929">
 
-    <EditText
-        android:id="@+id/tvFirstName"
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:background="#1c1c1c"
-        android:textColorHint="#7d7d7d"
+        android:layout_height="60dp"
         android:textColor="#9a9a9a"
+        android:textColorHint="#7d7d7d"
         android:hint="Напишите имя"
-        android:paddingLeft="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:id="@+id/one"
 
-        app:layout_constraintBottom_toTopOf="@id/tvLastName"
+        app:layout_constraintBottom_toTopOf="@id/two"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tvFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#7d7d7d"
+            android:paddingLeft="10dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/tvLastName"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:background="#1c1c1c"
-        android:textColorHint="#7d7d7d"
+        android:layout_height="60dp"
         android:textColor="#9a9a9a"
-        android:textSize="18sp"
+        android:textColorHint="#7d7d7d"
         android:hint="Напишите фамилию"
-        android:paddingLeft="10dp"
-        android:textStyle="bold"
+        android:id="@+id/two"
 
-        app:layout_constraintBottom_toTopOf="@id/oneLogin"
+        app:layout_constraintBottom_toTopOf="@id/free"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFirstName" />
+        app:layout_constraintTop_toBottomOf="@id/one"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tvLastName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#7d7d7d"
+            android:paddingLeft="10dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/oneLogin"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:background="#1c1c1c"
-        android:textColorHint="#7d7d7d"
+        android:layout_height="60dp"
         android:textColor="#9a9a9a"
+        android:textColorHint="#7d7d7d"
         android:hint="Придумайте логин"
-        android:paddingLeft="10dp"
-        android:textColorHighlight="#FFFFFF"
-        android:textStyle="bold"
+        android:id="@+id/free"
 
-        app:layout_constraintBottom_toTopOf="@id/onePassword"
+        app:layout_constraintBottom_toTopOf="@id/fo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLastName" />
+        app:layout_constraintTop_toBottomOf="@id/two"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/oneLogin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#7d7d7d"
+            android:paddingLeft="10dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/onePassword"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:background="#1c1c1c"
-        android:textColorHint="#7d7d7d"
+        android:layout_height="60dp"
         android:textColor="#9a9a9a"
+        android:textColorHint="#7d7d7d"
         android:hint="Придумайте пароль"
-        android:paddingLeft="10dp"
-        android:textStyle="bold"
+        android:id="@+id/fo"
 
-        app:layout_constraintBottom_toTopOf="@id/twoPassword"
+        app:layout_constraintBottom_toTopOf="@id/five"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/oneLogin" />
+        app:layout_constraintTop_toBottomOf="@id/free"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/onePassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#7d7d7d"
+            android:paddingLeft="10dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/twoPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:background="#1c1c1c"
-        android:textColorHint="#7d7d7d"
+        android:layout_height="60dp"
         android:textColor="#9a9a9a"
+        android:textColorHint="#7d7d7d"
         android:hint="Повторите пароль"
-        android:paddingLeft="10dp"
-        android:textStyle="bold"
+        android:id="@+id/five"
 
         app:layout_constraintBottom_toTopOf="@id/buttonRegistration"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/onePassword" />
+        app:layout_constraintTop_toBottomOf="@id/fo"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/twoPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#9a9a9a"
+            android:textColorHint="#7d7d7d"
+            android:paddingLeft="10dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonRegistration"
         android:layout_width="250dp"
         android:layout_height="80dp"
@@ -99,7 +137,7 @@
         android:onClick="Registration"
         android:text="Зарегестрироваться"
 
-        app:layout_constraintTop_toBottomOf="@id/twoPassword"
+        app:layout_constraintTop_toBottomOf="@id/five"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
