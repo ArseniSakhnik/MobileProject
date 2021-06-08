@@ -46,6 +46,7 @@ public class ChangeCouponCreator extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Изменить купон");
         setContentView(R.layout.activity_change_coupon_creator);
 
         settingFields();

@@ -41,8 +41,10 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
     private final static String FILE_ROLE = "role.txt";
     private String token;
     private String role;
+    private String search;
     private double targetX, targetY;
     private int count = 10;
+    private boolean checkSearch = false;
 
     ListView couponList;
     CouponCreatorService couponCreatorService;
@@ -59,6 +61,7 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
         setContentView(R.layout.activity_main3);
 
         this.context = this;
+        setTitle("Купоны");
 
         FileInputStream fos = null;
         try {
@@ -164,9 +167,13 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.equals("")) {
+                    count = 10;
                     couponCreatorService.getCouponCreators(1, count, token, ViewCouponCreator.this, couponList, targetX, targetY);
+                    checkSearch = false;
                 } else {
+                    checkSearch = true;
                     couponCreatorService.getCouponCreatorsBySearch(count, newText, token, context, couponList, targetX, targetY);
+                    search = newText;
                 }
                 return false;
             }
@@ -265,8 +272,17 @@ public class ViewCouponCreator extends AppCompatActivity implements LocListenerI
     }
 
     public void couponAdd(View view) {
-        count += 10;
-        couponCreatorService.getCouponCreators(1, count, token, this, couponList, targetX, targetY);
+
+        if (checkSearch == true)
+        {
+            count += 10;
+            couponCreatorService.getCouponCreatorsBySearch(count, search, token, context, couponList, targetX, targetY);
+        }
+        else
+        {
+            count += 10;
+            couponCreatorService.getCouponCreators(1, count, token, this, couponList, targetX, targetY);
+        }
     }
 
     public void addCouponCreator(View view) {

@@ -40,6 +40,7 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        setTitle("Регистрация");
 
         tvFirstName = findViewById(R.id.tvFirstName);
         tvLastName = findViewById(R.id.tvLastName);

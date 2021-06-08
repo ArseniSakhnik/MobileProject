@@ -46,6 +46,7 @@ public class AddCouponCreator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coupon_creator);
+        setTitle("Добавить купон");
 
         placeX = findViewById(R.id.placeX);
         placeY = findViewById(R.id.placeY);
