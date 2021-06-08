@@ -69,7 +69,6 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
             else
             {
-
                 coupons = await _dataContext.CouponCreators.Where(c => c.Id >= startId).Where(c => c.TargetX != null
                 && c.TargetY != null
                 && c.Radius != null).ToListAsync();
@@ -82,7 +81,6 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
                     && c.TargetX == null && c.TargetY == null && c.Radius == null).Take(count - coupons.Count).ToListAsync();
                     coupons.AddRange(couponsWithNull);
                 }
-
             }
 
             if (coupons.Count == 0)
@@ -92,14 +90,26 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             return coupons;
         }
 
-        public async Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName, double? xPosition, double? yPosition)
+        public async Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string search, string userName, string userRole, double? xPosition, double? yPosition)
         {
             List<CouponCreator> coupons;
+
+            if ((search == "admin" || search == userName) && userRole == Role.Counterparty)
+            {
+                coupons = await GetUserCreatorCouponCreatorsAsync(userName, count);
+                
+                if (coupons.Count == 0)
+                {
+                    throw new LogicException("Вы ещё не создали предложений");
+                }
+
+                return coupons;
+            }
 
             if (xPosition == null && yPosition == null)
             {
                 coupons = await _dataContext.CouponCreators.Where(c => 
-                c.Description.Contains(searchName.Trim())
+                c.Description.Contains(search.Trim())
                 && c.TargetX == null
                 && c.TargetY == null
                 && c.Radius == null
@@ -111,7 +121,7 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
             }
             else
             {
-                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())).Where(c => c.TargetX != null
+                coupons = await _dataContext.CouponCreators.Where(c => c.Description.Contains(search.Trim())).Where(c => c.TargetX != null
                 && c.TargetY != null
                 && c.Radius != null).ToListAsync();
 
@@ -119,20 +129,22 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
 
                 if (coupons.Count < count)
                 {
-                    var couponsWithNull = await _dataContext.CouponCreators.Where(c => c.Description.Contains(searchName.Trim())
+                    var couponsWithNull = await _dataContext.CouponCreators.Where(c => c.Description.Contains(search.Trim())
                     && c.TargetX == null && c.TargetY == null && c.Radius == null).Take(count - coupons.Count).ToListAsync();
                     coupons.AddRange(couponsWithNull);
                 }
 
             }
-
-
             if (coupons.Count == 0)
             {
                 throw new LogicException("Не удалось получить купоны");
             }
-
             return coupons;
+        }
+
+        public async Task<List<CouponCreator>> GetUserCreatorCouponCreatorsAsync(string userName, int count)
+        {
+            return await _dataContext.CouponCreators.Where(c => c.UserCreatorUsername == userName).Take(count).ToListAsync();
         }
 
         public async Task<CouponCreator> RemoveCouponCreatorAsync(int id, string userCreator)

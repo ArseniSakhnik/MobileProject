@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MobileProjectSamsung.Application.Conrtollers
 {
-    
+
     [ApiController]
     [Authorize]
     [Route("[controller]")]
@@ -26,7 +26,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpPost("getCouponListByCount/{startId}/{count}")]
         [Authorize]
-        public async Task<IActionResult> GetCouponCreatorsByFirstIndexAndCount(int startId, int count, [FromBody] UserLocationRequest model) 
+        public async Task<IActionResult> GetCouponCreatorsByFirstIndexAndCount(int startId, int count, [FromBody] UserLocationRequest model)
         {
             try
             {
@@ -41,11 +41,13 @@ namespace MobileProjectSamsung.Application.Conrtollers
 
         [HttpPost("getCouponCreatorListByIdAndSearch/{count}")]
         [Authorize]
-        public async Task<IActionResult> GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search, [FromBody] UserLocationRequest model) 
+        public async Task<IActionResult> GetCouponCreatorBySearchAndFirstIdAndCount(int count, [FromQuery(Name = "search")] string search, [FromBody] UserLocationRequest model)
         {
             try
             {
-                var coupons = await _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCountAsync(count, search, model.TargetX, model.TargetY);
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+                var userRole = User.FindFirstValue(ClaimTypes.Role);
+                var coupons = await _couponCreatorService.GetCouponCreatorsBySearchAndFirsIdAndCountAsync(count, search, userName, userRole, model.TargetX, model.TargetY);
                 return Ok(coupons);
             }
             catch (LogicException ex)
@@ -84,7 +86,7 @@ namespace MobileProjectSamsung.Application.Conrtollers
             {
                 return BadRequest(new { message = ex.Message });
             }
-            
+
         }
 
         [HttpPut("changeCouponCreator/{id}")]

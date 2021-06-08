@@ -15,6 +15,6 @@ namespace MobileProjectSamsung.Application.Services.CouponCreatorService
         public Task<CouponCreator> AddCouponCreatorAsync(double? targetX, double? targetY, double? radius, DateTime? endOfCoupon, string description, string userCreatorName);
         public Task<List<CouponCreator>> GetCouponCreatorsByFirstIndexAndCountAsync(int startId, int count, double? xPosition, double? yPosition);
         public bool CheckLocationProperties(double? targetX, double? targetY, double? radius);
-        public Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName, double? xPosition, double? yPosition);
+        public Task<List<CouponCreator>> GetCouponCreatorsBySearchAndFirsIdAndCountAsync(int count, string searchName, string userName, string userRole, double? xPosition, double? yPosition);
     }
 }

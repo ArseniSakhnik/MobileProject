@@ -92,5 +92,5 @@ namespace MobileProjectSamsung.Application.Services.UserService
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
         }
-    }
+    }        
 }
